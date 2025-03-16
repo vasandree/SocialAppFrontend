@@ -12,7 +12,7 @@ import pluginQuery from '@tanstack/eslint-plugin-query';
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default tseslint.config(
   {
-    ignores: ['dist', 'node_modules', 'eslint.config.js', 'src/components', 'src/hooks'],
+    ignores: ['dist', 'node_modules', 'eslint.config.js', 'src/components/ui', 'src/hooks'],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended, ...pluginQuery.configs['flat/recommended']],
