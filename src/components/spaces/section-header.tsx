@@ -21,7 +21,7 @@ export const SectionHeader = ({
       <div className="flex gap-2 items-center">
         {showViewAll && (
           <Button
-            variant="link"
+            variant='link'
             className="text-indigo-600 flex items-center gap-1"
             onClick={onViewAllClick}
           >
