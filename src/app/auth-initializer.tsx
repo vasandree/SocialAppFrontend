@@ -1,20 +1,39 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useWebApp } from '@vkruglikov/react-telegram-web-app';
 import { usePostLogin } from '@/utils/api/hooks';
-import { setAccessToken, setRefreshToken } from '@/utils/helpers';
+import { getAccessToken, setAccessToken, setRefreshToken } from '@/utils/helpers';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/utils/redux';
+import { fetchUser } from '@/utils/redux/reducers';
+import { GetProfileConfig } from '@/utils/api/requests';
 
-export const AuthInitializer = () => {
+interface AuthInitializerProps {
+  children: ReactNode;
+}
+
+export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   const webApp = useWebApp();
   const initData = webApp?.initData;
+  const dispatch: AppDispatch = useDispatch();
+  const { value: user, loading, error } = useSelector((state: RootState) => state.user);
   const mutateLogin = usePostLogin();
 
-  const [isLoginRequested, setIsLoginRequested] = useState(false);
+  const token = getAccessToken();
 
-  const [retryCount, setRetryCount] = useState(0);
+
+  const getProfile = () => {
+    try {
+      const config: GetProfileConfig = {
+        config: {},
+      };
+      dispatch(fetchUser(config));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    if (initData && !isLoginRequested && retryCount < 3) {
-      setIsLoginRequested(true);
+    if (!user && !token) {
       mutateLogin.mutate(
         {
           params: { initData: initData },
@@ -24,15 +43,22 @@ export const AuthInitializer = () => {
           onSuccess: (data) => {
             setAccessToken(data.accessToken);
             setRefreshToken(data.refreshToken);
+
+            getProfile()
           },
-          onError: () => {
-            setRetryCount((prevCount) => prevCount + 1);
-            setIsLoginRequested(false);
-          },
-        }
+        },
       );
     }
-  }, [initData, mutateLogin, isLoginRequested, retryCount]);
+    else if(!user && token) {
+      getProfile()
+    }
+  }, []);
 
-  return null;
+  if (loading)
+    return <div>Loading...</div>;
+
+  if (error)
+    return <div>Error</div>;
+
+  return <>{user && children}</>;
 };

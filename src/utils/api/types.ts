@@ -1,5 +1,5 @@
 export interface LoginDto {
-  initData: string
+  initData: string;
 }
 
 export interface UserDto {
@@ -7,7 +7,7 @@ export interface UserDto {
   telegramId: number;
   firstName?: string;
   lastName?: string;
-  username: string;
+  userName: string;
   photoUrl?: string;
   languageCode: string;
 }

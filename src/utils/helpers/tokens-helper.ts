@@ -21,4 +21,3 @@ export const setRefreshToken = (token: string) => {
 export const removeRefreshToken = () => {
   localStorage.removeItem('refreshToken');
 };
-

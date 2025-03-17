@@ -1,10 +1,8 @@
-import { Pencil } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import type { UserProfile } from './types';
+import { UserDto } from '@/utils/api';
 
 interface ProfileDetailsProps {
-  profile: UserProfile;
+  profile: UserDto;
 }
 
 export const ProfileDetails = ({ profile }: ProfileDetailsProps) => {
@@ -13,12 +11,6 @@ export const ProfileDetails = ({ profile }: ProfileDetailsProps) => {
       <CardHeader>
         <CardTitle className="flex justify-between items-center">
           Информация профиля
-          <Button
-            variant="ghost"
-            size="icon"
-          >
-            <Pencil className="h-4 w-4" />
-          </Button>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -34,14 +26,6 @@ export const ProfileDetails = ({ profile }: ProfileDetailsProps) => {
           <div>
             <p className="text-sm text-gray-500">Имя пользователя</p>
             <p className="font-medium">@{profile.userName}</p>
-          </div>
-          <div>
-            <p className="text-sm text-gray-500">Telegram ID</p>
-            <p className="font-medium">{profile.telegramId}</p>
-          </div>
-          <div className="md:col-span-2">
-            <p className="text-sm text-gray-500">ID</p>
-            <p className="font-medium break-all">{profile.id}</p>
           </div>
         </div>
       </CardContent>

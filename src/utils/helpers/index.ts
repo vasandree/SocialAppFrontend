@@ -1,1 +1,1 @@
-export * from './tokens-helper.ts'
+export * from './tokens-helper.ts';

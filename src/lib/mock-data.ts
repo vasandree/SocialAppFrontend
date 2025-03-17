@@ -1,7 +1,6 @@
 import type { SpaceProps } from '@/components/spaces/space-card';
 import type { UserData } from '@/components/people/user-card';
 import type { TaskData } from '@/components/tasks/task-card';
-import type { UserProfile } from '@/components/profile/types';
 import type { EventData } from '@/components/events/event-card';
 
 // Spaces mock data
@@ -51,8 +50,7 @@ export const availableSpacesMock: SpaceProps[] = [
   },
 ];
 
-export const
-  usersMock: UserData[] = Array(9)
+export const usersMock: UserData[] = Array(9)
   .fill(null)
   .map((_, index) => ({
     id: `user-${index + 1}`,
@@ -88,15 +86,6 @@ export const tasksMock: TaskData[] = Array(12)
     status: ['open', 'inProgress', 'completed', 'canceled'][Math.floor(index / 3) % 4] as TaskData['status'],
   }));
 
-// User profile mock data
-export const userProfileMock: UserProfile = {
-  id: '550e8400-e29b-41d4-a716-446655440000',
-  telegramId: 123456789,
-  firstName: 'Андрей',
-  lastName: 'Петров',
-  userName: 'andrey_petrov',
-  photoUrl: '/placeholder.svg?height=300&width=300',
-};
 
 // Events mock data
 export const eventsMock: EventData[] = [

@@ -1,1 +1,2 @@
-export * from './post-login-hook'
+export * from './postLoginHook.ts';
+export * from './getProfileHook.ts'

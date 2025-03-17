@@ -24,7 +24,7 @@ const MobileEventsView = () => {
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
@@ -68,7 +68,6 @@ const MobileEventsView = () => {
         onEventClick={setSelectedEvent}
       />
 
-      {/* Floating Action Button for creating new events */}
       <EventFormDialog>
         <Button
           className="fixed right-4 bottom-24 rounded-full h-14 w-14 shadow-lg"
@@ -87,7 +86,7 @@ const DesktopEventsView = () => {
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
