@@ -1,6 +1,5 @@
-import type React from 'react';
+import { ReactNode, useState } from 'react';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -27,10 +26,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { useMobile } from '@/hooks/use-mobile';
 
 interface EventFormProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export function EventFormDialog({ children }: EventFormProps) {
+export const EventFormDialog = ({ children }: EventFormProps) => {
   const [open, setOpen] = useState(false);
   const isMobile = useMobile();
 
@@ -78,9 +77,9 @@ export function EventFormDialog({ children }: EventFormProps) {
       </DialogContent>
     </Dialog>
   );
-}
+};
 
-function EventForm() {
+const EventForm = () => {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid gap-2">
@@ -131,4 +130,4 @@ function EventForm() {
       </div>
     </div>
   );
-}
+};

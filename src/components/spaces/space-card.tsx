@@ -42,7 +42,7 @@ export const SpaceCard = ({ space }: { space: SpaceProps }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem>Редактировать</DropdownMenuItem>
-                <DropdownMenuItem>Поделиться</DropdownMenuItem>
+                {/*<DropdownMenuItem>Поделиться</DropdownMenuItem>*/}
                 <DropdownMenuItem className="text-red-600">Удалить</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

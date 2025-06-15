@@ -16,3 +16,227 @@ export interface TokensDto {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface Pagination {
+  size: number;
+  count: number;
+  current: number;
+}
+
+export interface ListedBaseSocialNodeDto {
+  id: string;
+  name: string;
+  avatarUrl: string;
+}
+
+export interface ClustersDto {
+  clusters: ListedBaseSocialNodeDto[];
+  pagination: Pagination;
+}
+
+export interface BaseSocialNodeDto {
+  id: string;
+  name: string;
+  description?: string;
+  avatarUrl?: string;
+}
+
+export interface PersonDto extends BaseSocialNodeDto {
+  email: string;
+  phoneNumber: string;
+}
+
+export interface ClusterDto extends BaseSocialNodeDto {
+  persons: PersonDto[];
+}
+
+export interface EventTypeDto {
+  id: string;
+  name: string;
+}
+
+export interface EventDto {
+  id: string;
+  name: string;
+  location: string;
+  evenType: EventTypeDto;
+  date: Date;
+  socialNode: BaseSocialNodeDto;
+  workspaceId: string;
+}
+
+export interface ListedEventDto {
+  id: string;
+  name: string;
+  location: string;
+  evenType: EventTypeDto;
+  date: Date;
+}
+
+export interface PersonsPaginatedDto {
+  persons: ListedBaseSocialNodeDto[];
+  pagination: Pagination;
+}
+
+export interface SocialNetworkDto {
+  id: string;
+  type: SocialNetwork;
+  url: string;
+  username: string;
+}
+
+export enum SocialNetwork {
+  Facebook = 'Facebook',
+  Twitter = 'Twitter',
+  LinkedIn = 'LinkedIn',
+  Instagram = 'Instagram',
+  YouTube = 'YouTube',
+  Pinterest = 'Pinterest',
+  Snapchat = 'Snapchat',
+  TikTok = 'TikTok',
+  Reddit = 'Reddit',
+  WhatsApp = 'WhatsApp',
+  GitHub = 'GitHub',
+  Telegram = 'Telegram',
+  Twitch = 'Twitch',
+  Vk = 'Vk',
+}
+
+export interface PlacesDto {
+  place: ListedBaseSocialNodeDto[];
+  pagination: Pagination;
+}
+
+export interface ListedTaskDto {
+  id: string;
+  name: string;
+  endDate: Date;
+  socialNodeId: string;
+}
+
+export interface TasksDto {
+  openTasks: ListedTaskDto[];
+  inProgressTasks: ListedTaskDto[];
+  completedTasks: ListedTaskDto[];
+  cancelledTasks: ListedTaskDto[];
+}
+
+export interface TaskDto {
+  id: string;
+  name: string;
+  description?: string;
+  startDate: Date;
+  endDate: Date;
+  status: StatusOfTask;
+  socialNodeId: string;
+  workspaceId: string;
+}
+
+export enum StatusOfTask {
+  Created = 'Created',
+  InProgress = 'InProgress',
+  Done = 'Done ',
+  Cancelled = 'Cancelled',
+}
+
+export interface UserSettingsDto {
+  theme: Theme;
+  languageCode: Language;
+}
+
+export enum Theme {
+  Dark = 'Dark',
+  Light = 'Light',
+}
+
+export enum Language {
+  en = 'En',
+  ru = 'Ru',
+}
+
+export interface ListedWorkspaceDto {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+export interface WorkspacesDto {
+  workspaces: ListedWorkspaceDto[];
+  pagination: Pagination;
+}
+
+export interface WorkspaceInfoDto {
+  workspaceId: string;
+  name: string;
+  description?: string;
+  content: JSON;
+}
+
+export interface WorkspaceDto {
+  info: WorkspaceInfoDto;
+  tasks: TasksDto[];
+  events: ListedEventDto[];
+}
+
+export interface CreateSocialNodeForm {
+  name: string;
+  description?: string;
+  avatar?: File;
+}
+
+export interface CreateClusterForm extends CreateSocialNodeForm {
+  users?: string[];
+}
+
+export interface CreatePersonForm extends CreateSocialNodeForm {
+  email: string;
+  phoneNumber: string;
+}
+
+export type CreatePlaceForm = CreateSocialNodeForm;
+
+export interface EditPersonSocialNetworkAccountDto {
+  username: string;
+}
+
+export interface CreateSocialNetworkAccountDto {
+  type: SocialNetwork;
+  username: string;
+}
+
+export interface CreateEventDto {
+  title: string;
+  description?: string;
+  location: string;
+  evenTypeId: string;
+  date: Date;
+  socialNodeId: string[];
+  workspaceId: string;
+}
+
+export interface CreateTaskDto {
+  name: string;
+  description?: string;
+  startDate: Date;
+  endDate: Date;
+  socialNodeId: string;
+  workspaceId: string;
+}
+
+export interface CreateWorkspaceDto {
+  name: string;
+  description?: string;
+}
+
+export interface EditEventDto {
+  title: string;
+  description?: string;
+  location: string;
+  evenTypeId: string;
+  date: Date;
+  socialNodeId: string[];
+}
+
+export interface CreateEventTypeDto {
+  name: string;
+}

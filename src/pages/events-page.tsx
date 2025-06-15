@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Plus, CalendarIcon } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { PageLayout } from '@/components/layout/page-layout';
 import { EventSection } from '@/components/events/event-section';
@@ -24,7 +25,7 @@ const MobileEventsView = () => {
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
@@ -86,7 +87,7 @@ const DesktopEventsView = () => {
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');

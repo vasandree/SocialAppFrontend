@@ -1,9 +1,9 @@
 import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { router } from '@/app/router.tsx';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthInitializer } from '@/app/auth-initializer.tsx';
 import { store } from '@/utils/redux';
 

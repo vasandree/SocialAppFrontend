@@ -31,33 +31,6 @@ const spacesMock: SpaceProps[] = [
   },
 ];
 
-const availableSpacesMock: SpaceProps[] = [
-  {
-    title: 'Название',
-    description:
-      'Описание описание описание описание описание описание описание описание описание описание описание описание',
-    usersCount: 4,
-    tasksCount: 4,
-    eventsCount: 4,
-  },
-  {
-    title: 'Название',
-    description:
-      'Описание описание описание описание описание описание описание описание описание описание описание описание',
-    usersCount: 4,
-    tasksCount: 4,
-    eventsCount: 4,
-  },
-  {
-    title: 'Название',
-    description:
-      'Описание описание описание описание описание описание описание описание описание описание описание описание',
-    usersCount: 4,
-    tasksCount: 4,
-    eventsCount: 4,
-  },
-];
-
 export const SpacesPage = () => {
   const isMobile = useMobile();
 
@@ -72,22 +45,6 @@ export const SpacesPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {spacesMock.map((space, index) => (
-                <SpaceCard
-                  key={index}
-                  space={space}
-                />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <SectionHeader
-              title="Доступные пространства"
-              showViewAll
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {availableSpacesMock.map((space, index) => (
                 <SpaceCard
                   key={index}
                   space={space}

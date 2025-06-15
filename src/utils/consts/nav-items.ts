@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, ImageIcon, Users } from 'lucide-react';
+import { Briefcase, Calendar, ImageIcon, User, Users } from 'lucide-react';
 
 export const navItems = [
   {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Search, Plus } from 'lucide-react';
+
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { useMobile } from '@/hooks/use-mobile.tsx';
@@ -118,13 +119,13 @@ export const PeoplePage = () => {
 
   return (
     <div className="flex h-full">
-      <Sidebar currentPage={'people'} />
+      <Sidebar currentPage="people" />
 
       <main className="flex-1 h-full overflow-hidden">
         {isMobile ? <MobileView users={usersMock} /> : <DesktopView users={usersMock} />}
       </main>
 
-      <MobileNavigation currentPage={'people'} />
+      <MobileNavigation currentPage="people" />
     </div>
   );
 };

@@ -1,8 +1,9 @@
+import { useSelector } from 'react-redux';
 import { MobileNavigation, Sidebar } from '@/components/layout';
 import { ProfileActivity, ProfileDetails, ProfileHeader } from '@/components/profile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useSelector } from 'react-redux';
+
+
 import { RootState } from '@/utils/redux';
 
 export const ProfilePage = () => {
@@ -53,14 +54,6 @@ export const ProfilePage = () => {
               value="spaces"
               className="mt-4"
             >
-              <Card>
-                <CardHeader>
-                  <CardTitle>Мои пространства</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-500">Здесь будут отображаться ваши пространства</p>
-                </CardContent>
-              </Card>
             </TabsContent>
           </Tabs>
         </div>

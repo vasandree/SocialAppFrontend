@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { useState, useEffect } from 'react';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -93,7 +93,7 @@ export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
   );
 };
 
-function WorkspaceForm() {
+const WorkspaceForm = () => {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid gap-2">
@@ -125,4 +125,4 @@ function WorkspaceForm() {
       </div>
     </div>
   );
-}
+};

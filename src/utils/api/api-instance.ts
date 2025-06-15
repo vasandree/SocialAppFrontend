@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 import {
-  getAccessToken, getRefreshToken,
+  getAccessToken,
+  getRefreshToken,
   removeAccessToken,
   removeRefreshToken,
   setAccessToken,
@@ -9,7 +10,7 @@ import {
 } from '@/utils/helpers';
 import { postRefreshToken } from '@/utils/api/requests';
 
-const BASE_URL = 'https://localhost:7278/social_app';
+const BASE_URL = 'http://localhost:5132/api/social_app';
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,
@@ -54,7 +55,6 @@ apiInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-
         const tokens = { accessToken: getAccessToken(), refreshToken: getRefreshToken() };
 
         if (tokens.accessToken && tokens.refreshToken) {
@@ -83,7 +83,7 @@ apiInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export { apiInstance };

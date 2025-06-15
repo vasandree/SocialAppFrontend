@@ -1,6 +1,7 @@
 import { Users, Briefcase, Calendar, User, ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import { RootState } from '@/utils/redux';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
 
@@ -68,17 +69,20 @@ export const Sidebar = ({ currentPage }: SidebarProps) => {
               : 'text-gray-500 hover:bg-gray-100 rounded-md'
           }`}
         >
+          {user ? (
+            <Avatar className="h-5 w-5 md:h-6 md:w-6 border-1 border-indigo-600">
+              <AvatarImage
+                src={user.photoUrl}
+                alt={user.userName}
+              />
+              <AvatarFallback className="text-2xl bg-indigo-100 text-indigo-800">
+                {user.firstName ? user.firstName[0] : user.userName[0]}
+              </AvatarFallback>
+            </Avatar>
+          ) : (
+            <User className="h-5 w-5" />
+          )}
 
-          {user ? (<Avatar className="h-5 w-5 md:h-6 md:w-6 border-1 border-indigo-600">
-            <AvatarImage
-              src={user.photoUrl}
-              alt={user.userName}
-            />
-            <AvatarFallback className="text-2xl bg-indigo-100 text-indigo-800">
-              {user.firstName ? user.firstName[0] : user.userName[0]}
-            </AvatarFallback>
-          </Avatar>) :( <User className="h-5 w-5" />)}
-          
           <span>{user?.firstName}</span>
         </Link>
       </div>

@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button.tsx';
 
+import { Button } from '@/components/ui/button.tsx';
 import { useMobile } from '@/hooks/use-mobile.tsx';
 import { Sidebar } from '@/components/layout/sidebar.tsx';
 import { MobileNavigation } from '@/components/layout/mobile-navigation.tsx';
@@ -51,7 +51,7 @@ const MobileTaskView = () => {
             className="mb-6"
           >
             <div className="flex items-center gap-2 mb-3">
-              <div className={`w-3 h-3 rounded-full ${group.color}`}></div>
+              <div className={`w-3 h-3 rounded-full ${group.color}`} />
               <h2 className="font-medium">{group.title}</h2>
             </div>
             {filteredTasks.map((task) => (
@@ -114,11 +114,11 @@ export const TasksPage = () => {
 
   return (
     <div className="flex h-full">
-      <Sidebar currentPage={'tasks'} />
+      <Sidebar currentPage="tasks" />
 
       <main className="flex-1 overflow-auto">{isMobile ? <MobileTaskView /> : <DesktopTaskView />}</main>
 
-      <MobileNavigation currentPage={'tasks'} />
+      <MobileNavigation currentPage="tasks" />
     </div>
   );
 };

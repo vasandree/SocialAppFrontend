@@ -1,4 +1,7 @@
 import { ArrowLeft, Calendar, MapPin, Info, Users, MoreVertical } from 'lucide-react';
+
+import type { EventData } from './event-card';
+
 import { Button } from '@/components/ui/button';
 import { useMobile } from '@/hooks/use-mobile';
 import {
@@ -7,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { EventData } from './event-card';
 
 interface EventDetailPanelProps {
   event: EventData;

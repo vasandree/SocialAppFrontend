@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+
 import { PageLayout } from '@/components/layout';
 import { EventsPage, PeoplePage, ProfilePage, SpacesPage, TasksPage } from '@/pages';
 
@@ -6,7 +7,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <PageLayout currentPage={'spaces'}>
+      <PageLayout currentPage="spaces">
         <SpacesPage />
       </PageLayout>
     ),
@@ -14,7 +15,7 @@ export const router = createBrowserRouter([
   {
     path: '/spaces',
     element: (
-      <PageLayout currentPage={'spaces'}>
+      <PageLayout currentPage="spaces">
         <SpacesPage />
       </PageLayout>
     ),
@@ -22,7 +23,7 @@ export const router = createBrowserRouter([
   {
     path: '/profile',
     element: (
-      <PageLayout currentPage={'profile'}>
+      <PageLayout currentPage="profile">
         <ProfilePage />
       </PageLayout>
     ),
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
   {
     path: '/tasks',
     element: (
-      <PageLayout currentPage={'tasks'}>
+      <PageLayout currentPage="tasks">
         <TasksPage />
       </PageLayout>
     ),
@@ -38,7 +39,7 @@ export const router = createBrowserRouter([
   {
     path: '/people',
     element: (
-      <PageLayout currentPage={'people'}>
+      <PageLayout currentPage="people">
         <PeoplePage />
       </PageLayout>
     ),
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
   {
     path: '/events',
     element: (
-      <PageLayout currentPage={'events'}>
+      <PageLayout currentPage="events">
         <EventsPage />
       </PageLayout>
     ),
