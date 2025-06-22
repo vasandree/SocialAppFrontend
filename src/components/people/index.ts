@@ -1,2 +1,2 @@
-export * from './user-card.tsx';
-export * from './user-detail-panel.tsx';
+export * from './user-card';
+export * from './user-detail-panel';

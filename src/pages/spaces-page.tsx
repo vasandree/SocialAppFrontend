@@ -1,8 +1,8 @@
-import { useMobile } from '@/hooks/use-mobile.tsx';
-import { Sidebar } from '@/components/layout/sidebar.tsx';
-import { SectionHeader } from '@/components/spaces/section-header.tsx';
-import { SpaceCard } from '@/components/spaces/space-card.tsx';
-import { MobileNavigation } from '@/components/layout/mobile-navigation.tsx';
+import { useMobile } from '@/hooks/use-mobile';
+import { Sidebar } from '@/components/layout';
+import { SectionHeader } from '@/components/spaces';
+import { SpaceCard } from '@/components/spaces';
+import { MobileNavigation } from '@/components/layout';
 
 interface SpaceProps {
   title: string;
@@ -32,8 +32,7 @@ const spacesMock: SpaceProps[] = [
 ];
 
 export const SpacesPage = () => {
-  const isMobile = useMobile();
-
+  useMobile();
   return (
     <div className="flex h-full">
       <Sidebar currentPage={'spaces'} />

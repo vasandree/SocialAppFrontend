@@ -1,6 +1,5 @@
 export const routes = {
-  main: ()=> '/',
+  main: () => '/',
   spaces: () => 'spaces',
   space: (spaceId: string) => `spaces/${spaceId}`,
-
-}
+};

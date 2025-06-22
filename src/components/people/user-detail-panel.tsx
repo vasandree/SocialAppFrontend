@@ -1,8 +1,12 @@
 import { ArrowLeft, Instagram, Github, MessageCircle } from 'lucide-react';
+
+import type { UserData } from './user-card';
+
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import type { UserData } from './user-card';
+import { useMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/lib/language-context';
 
 interface UserDetailPanelProps {
   user: UserData;
@@ -10,8 +14,11 @@ interface UserDetailPanelProps {
 }
 
 export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
+  const isMobile = useMobile();
+  const { t } = useLanguage();
+
   return (
-    <div className="fixed top-0 right-0 bottom-0 z-50 w-full md:w-96 bg-white shadow-lg p-6 flex flex-col items-center md:items-start overflow-auto">
+    <div className="fixed inset-0 z-50 bg-background shadow-lg p-6 flex flex-col items-center md:items-start overflow-auto">
       <div className="w-full flex justify-between items-center mb-4">
         <Button
           variant="ghost"
@@ -19,17 +26,17 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
           className="gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
-          <span className="md:hidden">Назад</span>
+          <span className="md:hidden">{t('common.back')}</span>
         </Button>
       </div>
 
       <div className="flex flex-col items-center mb-6">
         <Avatar className="h-32 w-32 mb-4">
           <AvatarImage
-            src={user.photoUrl}
+            src={user.photoUrl || '/placeholder.svg'}
             alt={`${user.firstName} ${user.lastName}`}
           />
-          <AvatarFallback className="bg-gray-200 text-gray-400 text-3xl">
+          <AvatarFallback className="bg-muted text-muted-foreground text-3xl">
             {user.firstName[0]}
             {user.lastName[0]}
           </AvatarFallback>
@@ -41,7 +48,7 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
 
       {user.relationships && user.relationships.length > 0 && (
         <div className="w-full mb-6">
-          <h2 className="text-sm text-gray-500 mb-2">Связи</h2>
+          <h2 className="text-sm text-muted-foreground mb-2">{t('people.relationships')}</h2>
           <div className="flex flex-wrap gap-2">
             {user.relationships.map((relationship, index) => {
               const colors = ['bg-lime-200 text-lime-800', 'bg-yellow-200 text-yellow-800', 'bg-sky-200 text-sky-800'];
@@ -60,13 +67,13 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
 
       {(user.email || user.phone) && (
         <div className="w-full mb-6">
-          <h2 className="text-sm text-gray-500 mb-2">Контактная информация</h2>
+          <h2 className="text-sm text-muted-foreground mb-2">{t('people.contact')}</h2>
           {user.email && (
             <div className="flex justify-between items-center mb-2">
-              <span>Email:</span>
+              <span>{t('people.email')}:</span>
               <a
                 href={`mailto:${user.email}`}
-                className="text-indigo-600 hover:underline"
+                className="text-primary hover:underline"
               >
                 {user.email}
               </a>
@@ -74,10 +81,10 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
           )}
           {user.phone && (
             <div className="flex justify-between items-center">
-              <span>Телефон:</span>
+              <span>{t('people.phone')}:</span>
               <a
                 href={`tel:${user.phone}`}
-                className="text-indigo-600 hover:underline"
+                className="text-primary hover:underline"
               >
                 {user.phone}
               </a>
@@ -88,12 +95,12 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
 
       {user.socialLinks && Object.values(user.socialLinks).some(Boolean) && (
         <div className="w-full">
-          <h2 className="text-sm text-gray-500 mb-2">Соц сети</h2>
+          <h2 className="text-sm text-muted-foreground mb-2">{t('people.social')}</h2>
           <div className="grid grid-cols-2 gap-2">
             {user.socialLinks.instagram && (
               <a
                 href="#"
-                className="flex items-center gap-2 text-gray-700 hover:text-indigo-600"
+                className="flex items-center gap-2 text-foreground hover:text-primary"
               >
                 <Instagram className="h-5 w-5" />
                 {user.socialLinks.instagram}
@@ -102,7 +109,7 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
             {user.socialLinks.github && (
               <a
                 href="#"
-                className="flex items-center gap-2 text-gray-700 hover:text-indigo-600"
+                className="flex items-center gap-2 text-foreground hover:text-primary"
               >
                 <Github className="h-5 w-5" />
                 {user.socialLinks.github}
@@ -111,7 +118,7 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
             {user.socialLinks.telegram && (
               <a
                 href="#"
-                className="flex items-center gap-2 text-gray-700 hover:text-indigo-600"
+                className="flex items-center gap-2 text-foreground hover:text-primary"
               >
                 <MessageCircle className="h-5 w-5" />
                 {user.socialLinks.telegram}
@@ -120,7 +127,7 @@ export const UserDetailPanel = ({ user, onClose }: UserDetailPanelProps) => {
             {user.socialLinks.vk && (
               <a
                 href="#"
-                className="flex items-center gap-2 text-gray-700 hover:text-indigo-600"
+                className="flex items-center gap-2 text-foreground hover:text-primary"
               >
                 <div className="h-5 w-5 flex items-center justify-center font-bold text-sm">В</div>
                 {user.socialLinks.vk}

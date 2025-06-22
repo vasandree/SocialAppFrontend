@@ -1,3 +1,3 @@
-export * from './profile-activity.tsx';
-export * from './profile-details.tsx';
-export * from './profile-header.tsx';
+export * from './profile-activity';
+export * from './profile-details';
+export * from './profile-header';

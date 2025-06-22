@@ -1,6 +1,10 @@
 import { ChevronRight, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+
 import { WorkspaceFormDialog } from './workspace-form-dialog';
+
+import { Button } from '@/components/ui/button';
+import { useMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/lib/language-context';
 
 interface SectionHeaderProps {
   title: string;
@@ -15,6 +19,9 @@ export const SectionHeader = ({
   onViewAllClick,
   showCreateButton = false,
 }: SectionHeaderProps) => {
+  const isMobile = useMobile();
+  const { t } = useLanguage();
+
   return (
     <div className="flex justify-between items-center mb-4">
       <h2 className="text-2xl font-bold">{title}</h2>
@@ -22,19 +29,19 @@ export const SectionHeader = ({
         {showViewAll && (
           <Button
             variant="link"
-            className="text-indigo-600 flex items-center gap-1"
+            className="text-primary flex items-center gap-1"
             onClick={onViewAllClick}
           >
-            Показать все
+            {t('common.showAll')}
             <ChevronRight className="h-4 w-4" />
           </Button>
         )}
 
         {showCreateButton && (
           <WorkspaceFormDialog>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground flex items-center gap-1">
               <Plus className="h-4 w-4" />
-              Создать пространство
+              {t('spaces.create')}
             </Button>
           </WorkspaceFormDialog>
         )}

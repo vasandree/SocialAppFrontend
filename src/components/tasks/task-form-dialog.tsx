@@ -1,6 +1,5 @@
-import type React from 'react';
+import { ReactNode, useState } from 'react';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Drawer,
@@ -27,7 +25,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useMobile } from '@/hooks/use-mobile';
 
 interface TaskFormProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const TaskFormDialog = ({ children }: TaskFormProps) => {
@@ -65,7 +63,6 @@ export const TaskFormDialog = ({ children }: TaskFormProps) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Новая задача</DialogTitle>
@@ -80,7 +77,7 @@ export const TaskFormDialog = ({ children }: TaskFormProps) => {
   );
 };
 
-function TaskForm() {
+const TaskForm = () => {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid gap-2">
@@ -125,4 +122,4 @@ function TaskForm() {
       </div>
     </div>
   );
-}
+};

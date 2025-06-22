@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Search, Plus } from 'lucide-react';
 
-import { Button } from '@/components/ui/button.tsx';
-import { Input } from '@/components/ui/input.tsx';
-import { useMobile } from '@/hooks/use-mobile.tsx';
-import { UserCard } from '@/components/people/user-card.tsx';
-import { UserDetailPanel } from '@/components/people/user-detail-panel.tsx';
-import { Sidebar } from '@/components/layout/sidebar.tsx';
-import { MobileNavigation } from '@/components/layout/mobile-navigation.tsx';
-import { usersMock } from '@/lib/mock-data.ts';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useMobile } from '@/hooks/use-mobile';
+import { UserCard } from '@/components/people';
+import { UserDetailPanel } from '@/components/people';
+import { MobileNavigation } from '@/components/layout';
+import { usersMock } from '@/lib/mock-data';
 
 interface UserData {
   id: string;
@@ -119,8 +118,6 @@ export const PeoplePage = () => {
 
   return (
     <div className="flex h-full">
-      <Sidebar currentPage="people" />
-
       <main className="flex-1 h-full overflow-hidden">
         {isMobile ? <MobileView users={usersMock} /> : <DesktopView users={usersMock} />}
       </main>

@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Drawer,
@@ -64,7 +63,6 @@ export const EventFormDialog = ({ children }: EventFormProps) => {
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Новое событие</DialogTitle>

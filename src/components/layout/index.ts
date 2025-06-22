@@ -1,3 +1,3 @@
-export * from './sidebar.tsx';
-export * from './mobile-navigation.tsx';
-export * from './page-layout.tsx';
+export * from './sidebar';
+export * from './page-layout';
+export * from './mobile-navigation';

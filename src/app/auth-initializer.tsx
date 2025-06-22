@@ -34,6 +34,8 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   };
 
   useEffect(() => {
+    if (error) return;
+
     if (!user && !token) {
       mutateLogin.mutate(
         {
@@ -52,8 +54,7 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
     } else if (!user && token) {
       getProfile();
     }
-  }, [getProfile, initData, mutateLogin, token, user]);
-
+  }, []);
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>Error</div>;

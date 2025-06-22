@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode, Children, isValidElement, cloneElement } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -24,18 +23,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMobile } from '@/hooks/use-mobile';
+import { useLanguage } from '@/lib/language-context';
 
 interface WorkspaceFormProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
   const [open, setOpen] = useState(false);
   const isMobile = useMobile();
+  const { t } = useLanguage();
 
   useEffect(() => {
-    const childElement = React.Children.only(children);
-    if (React.isValidElement(childElement)) {
+    const childElement = Children.only(children);
+    if (isValidElement(childElement)) {
       const originalOnClick = childElement.props.onClick;
       const newProps = {
         ...childElement.props,
@@ -44,7 +45,7 @@ export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
           if (originalOnClick) originalOnClick(e);
         },
       };
-      const clonedChild = React.cloneElement(childElement, newProps);
+      const clonedChild = cloneElement(childElement, newProps);
     }
   }, [children, setOpen]);
 
@@ -57,16 +58,16 @@ export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
         <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className="text-left">
-            <DrawerTitle>Новое рабочее пространство</DrawerTitle>
-            <DrawerDescription>Создайте новое рабочее пространство для вашего проекта</DrawerDescription>
+            <DrawerTitle>{t('spaces.new')}</DrawerTitle>
+            <DrawerDescription>{t('spaces.description.placeholder')}</DrawerDescription>
           </DrawerHeader>
           <div className="px-4">
             <WorkspaceForm />
           </div>
           <DrawerFooter className="pt-2">
-            <Button>Создать пространство</Button>
+            <Button>{t('spaces.create')}</Button>
             <DrawerClose asChild>
-              <Button variant="outline">Отмена</Button>
+              <Button variant="outline">{t('common.cancel')}</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
@@ -81,12 +82,12 @@ export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Новое рабочее пространство</DialogTitle>
-          <DialogDescription>Создайте новое рабочее пространство для вашего проекта</DialogDescription>
+          <DialogTitle>{t('spaces.new')}</DialogTitle>
+          <DialogDescription>{t('spaces.description.placeholder')}</DialogDescription>
         </DialogHeader>
         <WorkspaceForm />
         <DialogFooter>
-          <Button type="submit">Создать пространство</Button>
+          <Button type="submit">{t('spaces.create')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -94,33 +95,35 @@ export const WorkspaceFormDialog = ({ children }: WorkspaceFormProps) => {
 };
 
 const WorkspaceForm = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="grid gap-4 py-4">
       <div className="grid gap-2">
-        <Label htmlFor="title">Название</Label>
+        <Label htmlFor="title">{t('common.name')}</Label>
         <Input
           id="title"
-          placeholder="Введите название пространства"
+          placeholder={t('spaces.description.placeholder')}
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="description">Описание</Label>
+        <Label htmlFor="description">{t('common.description')}</Label>
         <Textarea
           id="description"
-          placeholder="Описание рабочего пространства"
+          placeholder={t('spaces.description.placeholder')}
           className="resize-none"
           rows={4}
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="access">Доступ</Label>
+        <Label htmlFor="access">{t('spaces.access')}</Label>
         <select
           id="access"
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <option value="private">Приватное</option>
-          <option value="public">Публичное</option>
-          <option value="restricted">Ограниченный доступ</option>
+          <option value="private">{t('spaces.access.private')}</option>
+          <option value="public">{t('spaces.access.public')}</option>
+          <option value="restricted">{t('spaces.access.restricted')}</option>
         </select>
       </div>
     </div>

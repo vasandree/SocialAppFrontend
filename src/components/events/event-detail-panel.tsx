@@ -1,15 +1,10 @@
-import { ArrowLeft, Calendar, MapPin, Info, Users, MoreVertical } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, Info, Users } from 'lucide-react';
 
 import type { EventData } from './event-card';
 
 import { Button } from '@/components/ui/button';
 import { useMobile } from '@/hooks/use-mobile';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useLanguage } from '@/lib/language-context';
 
 interface EventDetailPanelProps {
   event: EventData;
@@ -18,96 +13,80 @@ interface EventDetailPanelProps {
 
 export const EventDetailPanel = ({ event, onClose }: EventDetailPanelProps) => {
   const isMobile = useMobile();
+  const { t } = useLanguage();
 
   return (
-    <div className="fixed top-0 right-0 bottom-0 z-50 w-full md:w-96 bg-white shadow-lg overflow-auto">
+    <div className="fixed inset-0 z-50 bg-background shadow-lg overflow-auto">
       <div className="p-6 flex flex-col">
-        {isMobile && (
+        <div className="flex items-center mb-6">
           <Button
             variant="ghost"
             onClick={onClose}
-            className="self-start mb-4 -ml-2"
+            className="-ml-2 mr-2"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Назад
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-        )}
-
-        <div className="flex justify-between items-start mb-6">
           <h1 className="text-2xl font-bold">{event.title}</h1>
-          {!isMobile && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8"
-                >
-                  <MoreVertical className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Редактировать</DropdownMenuItem>
-                <DropdownMenuItem>Поделиться</DropdownMenuItem>
-                <DropdownMenuItem className="text-red-600">Удалить</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
         </div>
 
         <div className="space-y-6 mb-6">
           <div className="flex items-start gap-3">
-            <Calendar className="h-5 w-5 text-gray-500 mt-0.5" />
+            <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
             <div>
-              <div className="font-medium">Дата и время</div>
-              <div className="text-gray-600">{event.dateRange}</div>
+              <div className="font-medium">{t('common.date')}</div>
+              <div className="text-muted-foreground">{event.dateRange}</div>
             </div>
           </div>
 
           {event.location && (
             <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 text-gray-500 mt-0.5" />
+              <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div>
-                <div className="font-medium">Место</div>
-                <div className="text-gray-600">{event.location}</div>
+                <div className="font-medium">{t('common.location')}</div>
+                <div className="text-muted-foreground">{event.location}</div>
               </div>
             </div>
           )}
 
           {event.type && (
             <div className="flex items-start gap-3">
-              <Info className="h-5 w-5 text-gray-500 mt-0.5" />
+              <Info className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div>
-                <div className="font-medium">Тип события</div>
-                <div className="text-gray-600">{event.type}</div>
+                <div className="font-medium">{t('common.type')}</div>
+                <div className="text-muted-foreground">{event.type}</div>
               </div>
             </div>
           )}
 
           {event.participants && event.participants.length > 0 && (
             <div className="flex items-start gap-3">
-              <Users className="h-5 w-5 text-gray-500 mt-0.5" />
+              <Users className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div>
-                <div className="font-medium">Участники</div>
-                <div className="text-gray-600">{event.participants.map((p) => p.name).join(', ')}</div>
+                <div className="font-medium">{t('events.participants')}</div>
+                <div className="text-muted-foreground">{event.participants.map((p) => p.name).join(', ')}</div>
               </div>
             </div>
           )}
         </div>
 
-        <div>
-          <h2 className="font-medium mb-2">Описание</h2>
-          <p className="text-gray-600">
+        <div className="mb-6">
+          <h2 className="font-medium mb-2">{t('common.description')}</h2>
+          <p className="text-muted-foreground whitespace-pre-wrap">
             Описание описание описание описание описание описание описание описание описание описание описание описание
             описание описание описание описание описание описание
           </p>
         </div>
 
-        {isMobile && (
-          <div className="mt-auto pt-6">
-            <Button className="w-full">Редактировать событие</Button>
-          </div>
-        )}
+        <div className="mt-auto pt-6 flex gap-2">
+          <Button className="flex-1">{t('common.edit')}</Button>
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={onClose}
+          >
+            {t('common.cancel')}
+          </Button>
+        </div>
       </div>
     </div>
   );

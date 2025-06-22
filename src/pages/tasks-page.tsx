@@ -1,11 +1,9 @@
-import { Plus } from 'lucide-react';
+import { Users, Briefcase, Calendar, ImageIcon, User } from 'lucide-react';
 
-import { Button } from '@/components/ui/button.tsx';
-import { useMobile } from '@/hooks/use-mobile.tsx';
-import { Sidebar } from '@/components/layout/sidebar.tsx';
-import { MobileNavigation } from '@/components/layout/mobile-navigation.tsx';
-import { TaskColumn } from '@/components/tasks/task-column.tsx';
-import { TaskCard } from '@/components/tasks/task-card.tsx';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useMobile } from '@/hooks/use-mobile';
 
 interface TaskData {
   id: string;
@@ -18,6 +16,7 @@ interface TaskData {
   status: 'open' | 'inProgress' | 'completed' | 'canceled';
 }
 
+// Mock data for tasks
 const tasksMock: TaskData[] = Array(12)
   .fill(null)
   .map((_, index) => ({
@@ -30,6 +29,51 @@ const tasksMock: TaskData[] = Array(12)
     },
     status: ['open', 'inProgress', 'completed', 'canceled'][Math.floor(index / 3) % 4] as TaskData['status'],
   }));
+
+const TaskCard = ({ task }: { task: TaskData }) => {
+  return (
+    <Card className="mb-3">
+      <CardContent className="p-4">
+        <CardTitle className="text-base mb-3">{task.title}</CardTitle>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-1 text-gray-500 text-sm">
+            <Calendar className="h-4 w-4" />
+            <span>{task.date}</span>
+          </div>
+          <div className="flex items-center gap-1 text-gray-500 text-sm">
+            <Avatar className="h-5 w-5">
+              <AvatarImage
+                src={task.assignee.photoUrl}
+                alt={task.assignee.name}
+              />
+              <AvatarFallback className="text-xs">{task.assignee.name[0]}</AvatarFallback>
+            </Avatar>
+            <span>{task.assignee.name}</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+const TaskColumn = ({ title, tasks, color }: { title: string; tasks: TaskData[]; color: string }) => {
+  return (
+    <div className="flex-1 min-w-[250px]">
+      <div className="flex items-center gap-2 mb-4">
+        <div className={`w-3 h-3 rounded-full ${color}`} />
+        <h2 className="font-medium">{title}</h2>
+      </div>
+      <div>
+        {tasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const MobileTaskView = () => {
   const statusGroups = [
@@ -75,14 +119,6 @@ const DesktopTaskView = () => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Мои задачи</h1>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Новая задача
-        </Button>
-      </div>
-
       <div className="flex gap-4 overflow-auto pb-4">
         <TaskColumn
           title="Открыто"
@@ -109,16 +145,56 @@ const DesktopTaskView = () => {
   );
 };
 
+const MobileNavigation = () => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-between p-3 md:hidden">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-14 w-14"
+      >
+        <ImageIcon className="h-8 w-8" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-14 w-14"
+      >
+        <Users className="h-8 w-8" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-14 w-14 text-indigo-600"
+      >
+        <Briefcase className="h-8 w-8" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-14 w-14"
+      >
+        <Calendar className="h-8 w-8" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-14 w-14"
+      >
+        <User className="h-8 w-8" />
+      </Button>
+    </div>
+  );
+};
+
 export const TasksPage = () => {
   const isMobile = useMobile();
 
   return (
     <div className="flex h-full">
-      <Sidebar currentPage="tasks" />
-
       <main className="flex-1 overflow-auto">{isMobile ? <MobileTaskView /> : <DesktopTaskView />}</main>
 
-      <MobileNavigation currentPage="tasks" />
+      <MobileNavigation />
     </div>
   );
 };

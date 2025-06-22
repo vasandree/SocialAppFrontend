@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Users, Briefcase, Calendar, ImageIcon, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
@@ -37,7 +37,7 @@ export const MobileNavigation = ({ currentPage }: MobileNavigationProps) => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-between p-3 md:hidden z-10">
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border flex justify-between p-3 md:hidden z-10">
       {navItems.map((item) => (
         <Button
           key={item.id}
