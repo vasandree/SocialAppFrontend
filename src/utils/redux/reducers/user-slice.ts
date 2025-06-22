@@ -24,7 +24,7 @@ export const fetchUser = createAsyncThunk<UserDto, GetProfileConfig>(
     } catch (error) {
       return rejectWithValue('Failed to fetch user');
     }
-  },
+  }
 );
 
 export const userSlice = createSlice({

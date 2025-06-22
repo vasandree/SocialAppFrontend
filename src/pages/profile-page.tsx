@@ -1,9 +1,8 @@
 import { useSelector } from 'react-redux';
+
 import { MobileNavigation, Sidebar } from '@/components/layout';
 import { ProfileActivity, ProfileDetails, ProfileHeader } from '@/components/profile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-
 import { RootState } from '@/utils/redux';
 
 export const ProfilePage = () => {
@@ -11,14 +10,11 @@ export const ProfilePage = () => {
 
   return (
     <div className="flex h-full">
-      <Sidebar currentPage={'profile'} />
+      <Sidebar currentPage="profile" />
 
       <main className="flex-1 p-4 pb-20 md:p-8 md:pb-8 overflow-auto">
         <div className="max-w-3xl mx-auto">
-
-          <section className="mb-6">
-            {user && (<ProfileHeader profile={user} />)}
-          </section>
+          <section className="mb-6">{user && <ProfileHeader profile={user} />}</section>
 
           <Tabs
             defaultValue="details"
@@ -42,7 +38,7 @@ export const ProfilePage = () => {
               value="details"
               className="mt-4"
             >
-              {user && (<ProfileDetails profile={user} />)}
+              {user && <ProfileDetails profile={user} />}
             </TabsContent>
             <TabsContent
               value="activity"
@@ -53,13 +49,12 @@ export const ProfilePage = () => {
             <TabsContent
               value="spaces"
               className="mt-4"
-            >
-            </TabsContent>
+            />
           </Tabs>
         </div>
       </main>
 
-      <MobileNavigation currentPage={'profile'} />
+      <MobileNavigation currentPage="profile" />
     </div>
   );
 };

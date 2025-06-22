@@ -25,7 +25,7 @@ const MobileEventsView = () => {
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
@@ -83,11 +83,11 @@ const MobileEventsView = () => {
 
 const DesktopEventsView = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [yearSelector, setYearSelector] = useState('2024');
+  const [yearSelector] = useState('2024');
 
   const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024',
+    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
   );
   const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
   const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');

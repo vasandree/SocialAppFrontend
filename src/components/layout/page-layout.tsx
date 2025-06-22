@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+
 import { Sidebar } from './sidebar';
 import { MobileNavigation } from './mobile-navigation';
 
