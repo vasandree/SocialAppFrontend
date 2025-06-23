@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button.tsx';
 import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { useMobile } from '@/hooks/use-mobile.tsx';
-import { useNavigate } from 'react-router-dom';
 
 interface Node {
   id: string;

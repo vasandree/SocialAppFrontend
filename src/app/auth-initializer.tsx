@@ -2,12 +2,12 @@ import { ReactNode, useEffect } from 'react';
 import { useWebApp } from '@vkruglikov/react-telegram-web-app';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { usePostLogin } from '@/utils/api/hooks';
 import { getAccessToken, setAccessToken, setRefreshToken } from '@/utils/helpers';
 import { AppDispatch, RootState } from '@/utils/redux';
 import { fetchUser } from '@/utils/redux/reducers';
 import { GetProfileConfig } from '@/utils/api/requests';
 import { SocialNetwork } from '@/utils/api';
+import { usePostLogin } from '@/utils/api/hooks/Auth/postLoginHook.ts';
 
 interface AuthInitializerProps {
   children: ReactNode;

@@ -1,8 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { UserDto } from '@/utils/api';
 import { getProfile, GetProfileConfig } from '@/utils/api/requests';
-
 
 export interface UserSlice {
   value?: UserDto;
