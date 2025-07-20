@@ -1,2 +1,2 @@
 export * from './user-card';
-export * from './user-detail-panel';
+export * from './person-creation-dialog.tsx';

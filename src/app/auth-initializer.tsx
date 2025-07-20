@@ -8,6 +8,8 @@ import { fetchUser } from '@/utils/redux/reducers';
 import { GetProfileConfig } from '@/utils/api/requests';
 import { SocialNetwork } from '@/utils/api';
 import { usePostLogin } from '@/utils/api/hooks/Auth/postLoginHook.ts';
+import { useTheme } from '@/components/theme-provider.tsx';
+import { useLanguage } from '@/app/language-context.tsx';
 
 interface AuthInitializerProps {
   children: ReactNode;
@@ -21,6 +23,9 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   const mutateLogin = usePostLogin();
 
   const token = getAccessToken();
+
+  const { setTheme } = useTheme();
+  const { setLanguage } = useLanguage();
 
   const getProfile = () => {
     try {
@@ -44,8 +49,18 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
         },
         {
           onSuccess: (data) => {
-            setAccessToken(data.accessToken);
-            setRefreshToken(data.refreshToken);
+            setAccessToken(data.tokens.accessToken);
+            setRefreshToken(data.tokens.refreshToken);
+
+            if (data.settings) {
+              const theme = data.settings.theme?.toLowerCase() === 'dark' ? 'dark' : 'light';
+              setTheme(theme);
+              localStorage.setItem('theme', theme);
+
+              const lang = data.settings.languageCode?.toLowerCase() === 'ru' ? 'ru' : 'en';
+              setLanguage(lang);
+              localStorage.setItem('language', lang);
+            }
 
             getProfile();
           },

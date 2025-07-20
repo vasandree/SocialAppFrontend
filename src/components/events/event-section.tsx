@@ -1,12 +1,13 @@
-import { EventCard, type EventData } from './event-card';
+import { EventCard } from './event-card';
+
+import { ListedEventDto } from '@/utils/api';
 
 interface EventSectionProps {
   title: string;
-  events: EventData[];
-  onEventClick: (event: EventData) => void;
+  events: ListedEventDto[];
 }
 
-export const EventSection = ({ title, events, onEventClick }: EventSectionProps) => {
+export const EventSection = ({ title, events }: EventSectionProps) => {
   if (events.length === 0) {
     return null;
   }
@@ -19,7 +20,6 @@ export const EventSection = ({ title, events, onEventClick }: EventSectionProps)
           <EventCard
             key={event.id}
             event={event}
-            onClick={() => onEventClick(event)}
           />
         ))}
       </div>

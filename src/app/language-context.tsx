@@ -58,6 +58,9 @@ const translations = {
     'people.social': 'Соц сети',
     'people.email': 'Email',
     'people.phone': 'Телефон',
+    'places.title': 'Места',
+    'clusters.title': 'Клвстеры',
+
 
     // Tasks
     'tasks.title': 'Мои задачи',
@@ -116,6 +119,31 @@ const translations = {
     'settings.english': 'English',
     'settings.theme.description': 'Выберите тему оформления приложения',
     'settings.language.description': 'Выберите язык интерфейса',
+
+    // Person Creation Dialog
+    'personCreation.title': 'Создать новый элемент',
+    'personCreation.chooseType': 'Выберите тип элемента для создания',
+    'personCreation.personTab': 'Человек',
+    'personCreation.placeTab': 'Место',
+    'personCreation.clusterTab': 'Кластер',
+    'personCreation.personName': 'Имя',
+    'personCreation.personNamePlaceholder': 'Введите имя',
+    'personCreation.personDescriptionPlaceholder': 'Описание человека',
+    'personCreation.avatar': 'Аватар',
+    'personCreation.preview': 'Превью',
+    'personCreation.placeName': 'Название',
+    'personCreation.placeNamePlaceholder': 'Введите название места',
+    'personCreation.placeDescriptionPlaceholder': 'Описание места',
+    'personCreation.image': 'Изображение',
+    'personCreation.clusterName': 'Название',
+    'personCreation.clusterNamePlaceholder': 'Введите название кластера',
+    'personCreation.clusterDescriptionPlaceholder': 'Описание кластера',
+    'personCreation.members': 'Участники',
+    'personCreation.selectMembers': 'Выберите участников',
+    'personCreation.selectedMembers': 'Выбранные участники:',
+    'personCreation.personCreated': 'Персона создана',
+    'personCreation.placeCreated': 'Место создано',
+    'personCreation.clusterCreated': 'Кластер создан',
   },
   en: {
     // Navigation
@@ -164,6 +192,8 @@ const translations = {
     'people.social': 'Social Networks',
     'people.email': 'Email',
     'people.phone': 'Phone',
+    'places.title': 'Places',
+    'clusters.title': 'Clusters',
 
     // Tasks
     'tasks.title': 'My Tasks',
@@ -222,6 +252,31 @@ const translations = {
     'settings.english': 'English',
     'settings.theme.description': 'Choose your preferred app theme',
     'settings.language.description': 'Choose your interface language',
+
+    // Person Creation Dialog
+    'personCreation.title': 'Create New Item',
+    'personCreation.chooseType': 'Select the type of item to create',
+    'personCreation.personTab': 'Person',
+    'personCreation.placeTab': 'Place',
+    'personCreation.clusterTab': 'Cluster',
+    'personCreation.personName': 'Name',
+    'personCreation.personNamePlaceholder': 'Enter name',
+    'personCreation.personDescriptionPlaceholder': 'Person description',
+    'personCreation.avatar': 'Avatar',
+    'personCreation.preview': 'Preview',
+    'personCreation.placeName': 'Title',
+    'personCreation.placeNamePlaceholder': 'Enter place name',
+    'personCreation.placeDescriptionPlaceholder': 'Place description',
+    'personCreation.image': 'Image',
+    'personCreation.clusterName': 'Title',
+    'personCreation.clusterNamePlaceholder': 'Enter cluster name',
+    'personCreation.clusterDescriptionPlaceholder': 'Cluster description',
+    'personCreation.members': 'Members',
+    'personCreation.selectMembers': 'Select members',
+    'personCreation.selectedMembers': 'Selected members:',
+    'personCreation.personCreated': 'Person created',
+    'personCreation.placeCreated': 'Place created',
+    'personCreation.clusterCreated': 'Cluster created',
   },
 };
 

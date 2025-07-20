@@ -3,8 +3,7 @@ import { ChevronRight, Plus } from 'lucide-react';
 import { WorkspaceFormDialog } from './workspace-form-dialog';
 
 import { Button } from '@/components/ui/button';
-import { useMobile } from '@/hooks/use-mobile';
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 
 interface SectionHeaderProps {
   title: string;
@@ -19,7 +18,6 @@ export const SectionHeader = ({
   onViewAllClick,
   showCreateButton = false,
 }: SectionHeaderProps) => {
-  const isMobile = useMobile();
   const { t } = useLanguage();
 
   return (

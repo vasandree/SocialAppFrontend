@@ -2,12 +2,13 @@ import { apiInstance, PlacesDto, RequestConfig } from '@/utils/api';
 
 export type GetPlacesConfig = RequestConfig & {
   queryParams?: {
-    page: number;
+    page?: number;
+    searchTerm?: string;
   };
 };
 
 export const getPlaces = async (config: GetPlacesConfig) => {
-  const response = await apiInstance.get<PlacesDto[]>('/places', {
+  const response = await apiInstance.get<PlacesDto>('/places', {
     ...config.config,
     params: {
       ...(config.queryParams || {}),

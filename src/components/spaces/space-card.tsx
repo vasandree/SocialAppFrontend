@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 
 export interface SpaceProps {
   id?: string;
@@ -23,10 +23,9 @@ export interface SpaceProps {
 export const SpaceCard = ({ space }: { space: SpaceProps }) => {
   const router = useNavigate();
   const { t } = useLanguage();
-  const spaceId = space.id || '1'; // Fallback ID if not provided
+  const spaceId = space.id || '1';
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Prevent navigation if clicking on buttons or dropdown
     if (e.target instanceof HTMLElement && (e.target.closest('button') || e.target.closest('[role="menuitem"]'))) {
       return;
     }

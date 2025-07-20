@@ -3,52 +3,55 @@ import { useState } from 'react';
 import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { TaskCard } from '@/components/tasks/task-card.tsx';
 import { TaskColumn } from '@/components/tasks/task-column.tsx';
-import { TaskDetailPanel } from '@/components/tasks/task-detail-panel.tsx';
-import { tasksMock } from '@/lib/mock-data.ts';
 import { useMobile } from '@/hooks/use-mobile.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.tsx';
-import { useLanguage } from '@/lib/language-context.tsx';
+import { useLanguage } from '@/app/language-context.tsx';
+import { useGetTasks } from '@/utils/api/hooks/Tasks/useGetTasks';
+import { ListedTaskDto } from '@/utils/api';
+import { Loading } from '@/pages/tasks/loading.tsx';
+import { useToast } from '@/hooks/use-toast.ts';
+import { usePutEditTaskStatus } from '@/utils/api/hooks';
 
-const MobileTaskView = () => {
-  const [selectedStatus, setSelectedStatus] = useState<string>('all');
-  const [selectedTask, setSelectedTask] = useState(null);
-  const isMobile = useMobile();
+const statusGroups = [
+  { titleKey: 'tasks.open', color: 'bg-gray-400', key: 'open', listKey: 'openTasks' },
+  { titleKey: 'tasks.inProgress', color: 'bg-yellow-400', key: 'inProgress', listKey: 'inProgressTasks' },
+  { titleKey: 'tasks.completed', color: 'bg-green-400', key: 'completed', listKey: 'completedTasks' },
+  { titleKey: 'tasks.canceled', color: 'bg-red-500', key: 'canceled', listKey: 'cancelledTasks' },
+] as const;
+
+export type TaskStatus = 'open' | 'inProgress' | 'completed' | 'canceled';
+
+type TaskWithStatus = ListedTaskDto & { status: TaskStatus };
+
+export type TaskData = ListedTaskDto & { status: TaskStatus };
+
+interface TaskViewProps {
+  tasksDto: TaskWithStatus[];
+}
+
+const MobileTaskView = ({ tasksDto }: TaskViewProps) => {
+  const [selectedStatus, setSelectedStatus] = useState<'all' | TaskStatus>('all');
   const { t } = useLanguage();
 
-  const statusGroups = [
-    { title: t('tasks.open'), color: 'bg-gray-400', key: 'open' },
-    { title: t('tasks.inProgress'), color: 'bg-yellow-400', key: 'inProgress' },
-    { title: t('tasks.completed'), color: 'bg-green-400', key: 'completed' },
-    { title: t('tasks.canceled'), color: 'bg-red-500', key: 'canceled' },
-  ];
-
-  // Filter tasks based on selected status
-  const filteredTasks =
-    selectedStatus === 'all' ? tasksMock : tasksMock.filter((task) => task.status === selectedStatus);
+  const filteredTasks = selectedStatus === 'all' ? tasksDto : tasksDto.filter((task) => task.status === selectedStatus);
 
   const currentStatusGroup =
     selectedStatus === 'all'
       ? { title: t('tasks.title'), color: 'bg-primary' }
-      : statusGroups.find((group) => group.key === selectedStatus);
-
-  if (selectedTask) {
-    return (
-      <TaskDetailPanel
-        task={selectedTask}
-        onClose={() => setSelectedTask(null)}
-      />
-    );
-  }
+      : (() => {
+          const group = statusGroups.find((group) => group.key === selectedStatus);
+          return group ? { title: t(group.titleKey), color: group.color } : { title: '', color: '' };
+        })();
 
   return (
-    <div className="p-4 pb-20 relative">
+    <div className="p-4 pb-20 relative min-h-[300px]">
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">{t('tasks.title')}</h1>
         </div>
         <Select
           defaultValue="all"
-          onValueChange={setSelectedStatus}
+          onValueChange={(value: string) => setSelectedStatus(value as 'all' | TaskStatus)}
         >
           <SelectTrigger className="w-full">
             <SelectValue placeholder={t('common.status')} />
@@ -62,7 +65,7 @@ const MobileTaskView = () => {
               >
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${group.color}`} />
-                  <span>{group.title}</span>
+                  <span>{t(group.titleKey)}</span>
                 </div>
               </SelectItem>
             ))}
@@ -71,9 +74,8 @@ const MobileTaskView = () => {
       </div>
 
       {selectedStatus === 'all' ? (
-        // Display all tasks grouped by status
         statusGroups.map((group) => {
-          const groupTasks = tasksMock.filter((task) => task.status === group.key);
+          const groupTasks = tasksDto.filter((task) => task.status === group.key);
           if (groupTasks.length === 0) return null;
 
           return (
@@ -83,20 +85,18 @@ const MobileTaskView = () => {
             >
               <div className="flex items-center gap-2 mb-3">
                 <div className={`w-3 h-3 rounded-full ${group.color}`} />
-                <h2 className="font-medium">{group.title}</h2>
+                <h2 className="font-medium">{t(group.titleKey)}</h2>
               </div>
               {groupTasks.map((task) => (
                 <TaskCard
                   key={task.id}
-                  task={task}
-                  onClick={() => setSelectedTask(task)}
+                  task={{ ...task, status: group.key as TaskStatus }}
                 />
               ))}
             </div>
           );
         })
       ) : (
-        // Display tasks for selected status
         <div>
           <div className="flex items-center gap-2 mb-3">
             <div className={`w-3 h-3 rounded-full ${currentStatusGroup?.color}`} />
@@ -106,7 +106,6 @@ const MobileTaskView = () => {
             <TaskCard
               key={task.id}
               task={task}
-              onClick={() => setSelectedTask(task)}
             />
           ))}
         </div>
@@ -115,14 +114,39 @@ const MobileTaskView = () => {
   );
 };
 
-const DesktopTaskView = () => {
-  const [selectedTask, setSelectedTask] = useState(null);
+const DesktopTaskView = ({ tasksDto }: TaskViewProps) => {
+  const [tasks, setTasks] = useState<TaskData[]>(tasksDto);
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const editTaskStatus = usePutEditTaskStatus();
 
-  const openTasks = tasksMock.filter((task) => task.status === 'open');
-  const inProgressTasks = tasksMock.filter((task) => task.status === 'inProgress');
-  const completedTasks = tasksMock.filter((task) => task.status === 'completed');
-  const canceledTasks = tasksMock.filter((task) => task.status === 'canceled');
+  const handleTaskMove = (taskId: string, newStatus: 'open' | 'inProgress' | 'completed' | 'canceled') => {
+    setTasks((prevTasks) => {
+      const updatedTasks = prevTasks.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task));
+
+      const task = prevTasks.find((t) => t.id === taskId);
+      if (task) {
+        const statusLabels = {
+          open: t('tasks.open'),
+          inProgress: t('tasks.inProgress'),
+          completed: t('tasks.completed'),
+          canceled: t('tasks.canceled'),
+        };
+
+        toast({
+          title: 'Задача перемещена',
+          description: `"${task.name}" перемещена в "${statusLabels[newStatus]}"`,
+        });
+      }
+
+      return updatedTasks;
+    });
+  };
+
+  const openTasks = tasks.filter((task) => task.status === 'open');
+  const inProgressTasks = tasks.filter((task) => task.status === 'inProgress');
+  const completedTasks = tasks.filter((task) => task.status === 'completed');
+  const canceledTasks = tasks.filter((task) => task.status === 'canceled');
 
   return (
     <div className="p-6 relative">
@@ -135,34 +159,31 @@ const DesktopTaskView = () => {
           title={t('tasks.open')}
           tasks={openTasks}
           color="bg-gray-400"
-          onTaskClick={setSelectedTask}
+          status="open"
+          onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.inProgress')}
           tasks={inProgressTasks}
           color="bg-yellow-400"
-          onTaskClick={setSelectedTask}
+          status="inProgress"
+          onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.completed')}
           tasks={completedTasks}
           color="bg-green-400"
-          onTaskClick={setSelectedTask}
+          status="completed"
+          onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.canceled')}
           tasks={canceledTasks}
           color="bg-red-500"
-          onTaskClick={setSelectedTask}
+          status="canceled"
+          onTaskMove={handleTaskMove}
         />
       </div>
-
-      {selectedTask && (
-        <TaskDetailPanel
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
-      )}
     </div>
   );
 };
@@ -170,5 +191,30 @@ const DesktopTaskView = () => {
 export const TasksPage = () => {
   const isMobile = useMobile();
 
-  return <PageLayout currentPage="tasks">{isMobile ? <MobileTaskView /> : <DesktopTaskView />}</PageLayout>;
+  const { data: tasksDto, isLoading } = useGetTasks({});
+
+  const allTasks: TaskWithStatus[] = tasksDto
+    ? [
+        ...tasksDto.openTasks.map((t) => ({ ...t, status: 'open' as const })),
+        ...tasksDto.inProgressTasks.map((t) => ({ ...t, status: 'inProgress' as const })),
+        ...tasksDto.completedTasks.map((t) => ({ ...t, status: 'completed' as const })),
+        ...tasksDto.cancelledTasks.map((t) => ({ ...t, status: 'canceled' as const })),
+      ]
+    : [];
+
+  if (isLoading) {
+    return (
+      <PageLayout currentPage="tasks">
+        <div className="p-4">
+          <Loading />
+        </div>
+      </PageLayout>
+    );
+  }
+
+  return (
+    <PageLayout currentPage="tasks">
+      {isMobile ? <MobileTaskView tasksDto={allTasks} /> : <DesktopTaskView tasksDto={allTasks} />}
+    </PageLayout>
+  );
 };

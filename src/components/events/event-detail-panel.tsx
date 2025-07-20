@@ -4,7 +4,7 @@ import type { EventData } from './event-card';
 
 import { Button } from '@/components/ui/button';
 import { useMobile } from '@/hooks/use-mobile';
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 
 interface EventDetailPanelProps {
   event: EventData;

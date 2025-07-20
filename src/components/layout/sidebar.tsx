@@ -1,11 +1,13 @@
-import { Users, Briefcase, Calendar, User } from 'lucide-react';
+import { Users, Briefcase, Calendar, User, ImageIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 import { RootState } from '@/utils/redux';
+import { routes } from '@/utils/consts/routes.ts';
+import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
 
 interface SidebarProps {
   currentPage: 'spaces' | 'people' | 'tasks' | 'events' | 'profile';
@@ -18,25 +20,25 @@ export const Sidebar = ({ currentPage }: SidebarProps) => {
   const navItems = [
     {
       name: t('nav.spaces'),
-      href: '/spaces',
-      icon: Users,
+      route: routes.main(),
+      icon: ImageIcon,
       id: 'spaces',
     },
     {
       name: t('nav.people'),
-      href: '/people',
+      route: routes.people(),
       icon: Users,
       id: 'people',
     },
     {
       name: t('nav.tasks'),
-      href: '/tasks',
+      route: routes.tasks(),
       icon: Briefcase,
       id: 'tasks',
     },
     {
       name: t('nav.events'),
-      href: '/events',
+      route: routes.events(),
       icon: Calendar,
       id: 'events',
     },
@@ -51,7 +53,7 @@ export const Sidebar = ({ currentPage }: SidebarProps) => {
           {navItems.map((item) => (
             <Link
               key={item.id}
-              to={item.href}
+              to={item.route}
               className={`flex items-center gap-2 p-2 rounded-md transition-colors ${
                 currentPage === item.id
                   ? 'text-primary bg-primary/10 hover:bg-primary/20'
@@ -73,14 +75,23 @@ export const Sidebar = ({ currentPage }: SidebarProps) => {
           </div>
 
           <Link
-            to="/profile"
+            to={routes.profile()}
             className={`flex items-center gap-2 p-2 rounded-md transition-colors ${
               currentPage === 'profile'
                 ? 'text-primary bg-primary/10'
                 : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
             }`}
           >
-            <User className="h-5 w-5" />
+            {user?.photoUrl ? (
+              <Avatar className="h-5 w-5 md:h-5 md:w-5 ">
+                <AvatarImage
+                  src={user.photoUrl || '/placeholder.svg'}
+                  alt={user.userName[0]}
+                />
+              </Avatar>
+            ) : (
+              <User className="h-5 w-5" />
+            )}
             <span>{user ? user.userName : t('profile.title')}</span>
           </Link>
         </div>

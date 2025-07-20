@@ -3,20 +3,6 @@ import { MapPin, Info, Calendar } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export interface EventData {
-  id: string;
-  title: string;
-  description: string;
-  dateRange: string;
-  singleDate?: string;
-  location?: string;
-  participants?: {
-    name: string;
-    photoUrl?: string;
-  }[];
-  type?: string;
-}
-
 export const EventCard = ({ event, onClick }: { event: EventData; onClick?: () => void }) => {
   return (
     <Card

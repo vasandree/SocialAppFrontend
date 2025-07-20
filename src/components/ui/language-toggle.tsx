@@ -2,7 +2,7 @@ import { Languages } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useLanguage } from "@/lib/language-context"
+import { useLanguage } from "@/app/language-context.tsx"
 
 export function LanguageToggle() {
   const { language, setLanguage, t } = useLanguage()

@@ -17,6 +17,11 @@ export interface TokensDto {
   refreshToken: string;
 }
 
+export interface AuthResponse {
+  tokens: TokensDto;
+  settings: UserSettingsDto;
+}
+
 export interface Pagination {
   size: number;
   count: number;
@@ -74,7 +79,7 @@ export interface ListedEventDto {
 }
 
 export interface PersonsPaginatedDto {
-  persons: ListedBaseSocialNodeDto[];
+  person: ListedBaseSocialNodeDto[];
   pagination: Pagination;
 }
 
@@ -111,7 +116,7 @@ export interface ListedTaskDto {
   id: string;
   name: string;
   endDate: Date;
-  socialNodeId: string;
+  socialNode: ListedBaseSocialNodeDto;
 }
 
 export interface TasksDto {
@@ -239,4 +244,26 @@ export interface EditEventDto {
 
 export interface CreateEventTypeDto {
   name: string;
+}
+
+export interface RelationDto {
+  id: string;
+  name: string;
+  description?: string;
+  color: string;
+}
+
+export interface CreateRelationDto {
+  name: string;
+  description?: string;
+  color: string;
+  firstUnit: string;
+  secondUnit: string;
+  workspaceId: string;
+}
+
+export interface EditRelationDto {
+  name: string;
+  description?: string;
+  color: string;
 }

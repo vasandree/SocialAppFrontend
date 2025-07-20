@@ -1,11 +1,11 @@
-import { apiInstance, LoginDto, RequestConfig, TokensDto } from '@/utils/api';
+import { apiInstance, AuthResponse, LoginDto, RequestConfig } from '@/utils/api';
 
 export type PostLoginConfig = RequestConfig<LoginDto> & {
   queryParams?: { socialNetwork?: string };
 };
 
 export const postLoginUser = async (config: PostLoginConfig) => {
-  const response = await apiInstance.post<TokensDto>('/auth/login', config.params, {
+  const response = await apiInstance.post<AuthResponse>('/auth/login', config.params, {
     ...config.config,
     params: {
       ...(config.queryParams || {}),

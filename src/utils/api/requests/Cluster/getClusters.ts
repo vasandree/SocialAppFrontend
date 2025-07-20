@@ -2,7 +2,8 @@ import { apiInstance, RequestConfig, ClustersDto } from '@/utils/api';
 
 export type GetClustersConfig = RequestConfig & {
   queryParams?: {
-    page: number;
+    page?: number;
+    searchTerm?: string;
   };
 };
 

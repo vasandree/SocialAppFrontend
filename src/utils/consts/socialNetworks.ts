@@ -1,0 +1,16 @@
+export enum SocialNetwork {
+  Facebook,
+  Twitter,
+  LinkedIn,
+  Instagram,
+  YouTube,
+  Pinterest,
+  Snapchat,
+  TikTok,
+  Reddit,
+  WhatsApp,
+  GitHub,
+  Telegram,
+  Twitch,
+  Vk,
+}

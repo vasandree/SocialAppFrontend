@@ -1,15 +1,12 @@
 import type { UserProfile } from './types';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useLanguage } from '@/lib/language-context';
 
 interface ProfileHeaderProps {
   profile: UserProfile;
 }
 
 export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
-  const { t } = useLanguage();
-
   const fullName =
     profile.firstName && profile.lastName
       ? `${profile.firstName} ${profile.lastName}`

@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 
 export const ProfileActivity = () => {
   const { t } = useLanguage();

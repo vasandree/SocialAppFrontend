@@ -19,7 +19,6 @@ export const WorkspaceDetailPage = ({ params }: { params: { id: string } }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [activeTab, setActiveTab] = useState('workspace');
 
-  // In a real app, you would fetch the workspace data based on the ID
   const workspace = {
     id: params.id,
     title: 'Название',

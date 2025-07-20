@@ -1,49 +1,23 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-export interface UserData {
-  id: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  photoUrl?: string;
-  email?: string;
-  phone?: string;
-  relationships?: string[];
-  socialLinks?: {
-    instagram?: string;
-    github?: string;
-    telegram?: string;
-    vk?: string;
-  };
-}
+import { ListedBaseSocialNodeDto } from '@/utils/api';
 
 interface UserCardProps {
-  user: UserData;
-  isSelected?: boolean;
-  onClick: () => void;
+  user: ListedBaseSocialNodeDto;
 }
 
-export const UserCard = ({ user, isSelected, onClick }: UserCardProps) => {
+export const SocialNodeCard = ({ user }: UserCardProps) => {
   return (
-    <Card
-      className={`cursor-pointer hover:shadow-md transition-all duration-200 border border-border rounded-xl bg-card ${isSelected ? 'ring-2 ring-primary ring-offset-2 ring-offset-background' : ''}`}
-      onClick={onClick}
-    >
+    <Card className="border border-border rounded-xl overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200 bg-card">
       <CardContent className="p-4 flex flex-col items-center text-center bg-card">
         <Avatar className="h-24 w-24 mb-2">
           <AvatarImage
-            src={user.photoUrl || '/placeholder.svg'}
-            alt={`${user.firstName} ${user.lastName}`}
+            src={user.avatarUrl || '/placeholder.svg'}
+            alt={`${user.name}`}
           />
-          <AvatarFallback className="bg-gray-200 text-gray-400">
-            {user.firstName[0]}
-            {user.lastName[0]}
-          </AvatarFallback>
+          <AvatarFallback className="bg-gray-200 text-gray-400">{user.name[0]}</AvatarFallback>
         </Avatar>
-        <p className="font-medium">
-          {user.firstName} {user.lastName}
-        </p>
+        <p className="font-medium">{user.name}</p>
       </CardContent>
     </Card>
   );

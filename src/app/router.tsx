@@ -1,55 +1,35 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { PageLayout } from '@/components/layout';
-import { EventsPage, PeoplePage, ProfilePage, SpacesPage, TasksPage } from '@/pages';
+import { EventsPage, PeoplePage, PersonPage, ProfilePage, SpacesPage, TasksPage } from '@/pages';
+import { routes } from '@/utils/consts/routes.ts';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <PageLayout currentPage="spaces">
-        <SpacesPage />
-      </PageLayout>
-    ),
+    path: routes.main(),
+    element: <SpacesPage />,
   },
   {
-    path: '/spaces',
-    element: (
-      <PageLayout currentPage="spaces">
-        <SpacesPage />
-      </PageLayout>
-    ),
+    path: routes.spaces(),
+    element: <SpacesPage />,
   },
   {
-    path: '/profile',
-    element: (
-      <PageLayout currentPage="profile">
-        <ProfilePage />
-      </PageLayout>
-    ),
+    path: routes.profile(),
+    element: <ProfilePage />,
   },
   {
-    path: '/tasks',
-    element: (
-      <PageLayout currentPage="tasks">
-        <TasksPage />
-      </PageLayout>
-    ),
+    path: routes.tasks(),
+    element: <TasksPage />,
   },
   {
-    path: '/people',
-    element: (
-      <PageLayout currentPage="people">
-        <PeoplePage />
-      </PageLayout>
-    ),
+    path: routes.people(),
+    element: <PeoplePage />,
   },
   {
-    path: '/events',
-    element: (
-      <PageLayout currentPage="events">
-        <EventsPage />
-      </PageLayout>
-    ),
+    path: routes.events(),
+    element: <EventsPage />,
+  },
+  {
+    path: routes.person(),
+    element: <PersonPage />,
   },
 ]);

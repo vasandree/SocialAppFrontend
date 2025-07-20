@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button.tsx';
 import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { EventSection } from '@/components/events/event-section.tsx';
 import { EventDetailPanel } from '@/components/events/event-detail-panel.tsx';
-import { eventsMock } from '@/lib/mock-data.ts';
 import { useMobile } from '@/hooks/use-mobile.tsx';
-import { useLanguage } from '@/lib/language-context.tsx';
+import { useLanguage } from '@/app/language-context.tsx';
+import { useGetEvents } from '@/utils/api/hooks/Events/useGetEvents';
+import { ListedEventDto } from '@/utils/api';
 
 const EmptyState = () => {
   const { t } = useLanguage();
@@ -21,28 +22,58 @@ const EmptyState = () => {
   );
 };
 
-const MobileEventsView = () => {
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const { t } = useLanguage();
-
-  if (selectedEvent) {
-    return (
-      <div className="h-full pb-20">
-        <EventDetailPanel
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-        />
-      </div>
-    );
-  }
-
-  const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
+function isSameDay(date1: Date, date2: Date) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
   );
-  const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const allEvents = [todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents].flat();
+}
+
+function isSameWeek(date: Date, now: Date) {
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+  return date >= startOfWeek && date <= endOfWeek;
+}
+
+function isSameMonth(date: Date, now: Date) {
+  return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+}
+
+function isSameYear(date: Date, now: Date) {
+  return date.getFullYear() === now.getFullYear();
+}
+
+function useParsedEvents(events: ListedEventDto[] | undefined) {
+  const now = new Date();
+  const parsedEvents = (events || []).map((e) => ({
+    ...e,
+    date: new Date(e.date),
+  }));
+
+  const todayEvents = parsedEvents.filter((event) => isSameDay(event.date, now));
+  const thisWeekEvents = parsedEvents.filter((event) => isSameWeek(event.date, now));
+  const thisMonthEvents = parsedEvents.filter((event) => isSameMonth(event.date, now));
+  const thisYearEvents = parsedEvents.filter((event) => isSameYear(event.date, now));
+
+  return {
+    parsedEvents,
+    todayEvents,
+    thisWeekEvents,
+    thisMonthEvents,
+    thisYearEvents,
+  };
+}
+
+const MobileEventsView = () => {
+  const { t } = useLanguage();
+  const { data: events, isLoading } = useGetEvents({});
+
+  const { parsedEvents, todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents } = useParsedEvents(events);
 
   return (
     <div className="p-4 pb-20">
@@ -50,29 +81,27 @@ const MobileEventsView = () => {
         <h1 className="text-2xl font-bold text-primary">{t('events.title')}</h1>
       </div>
 
-      {allEvents.length === 0 ? (
+      {isLoading ? (
+        <div className="text-center py-20">{t('common.loading')}</div>
+      ) : parsedEvents.length === 0 ? (
         <EmptyState />
       ) : (
         <>
           <EventSection
-            title={`${t('events.today')}, 1 января 2024`}
+            title={t('events.today')}
             events={todayEvents}
-            onEventClick={setSelectedEvent}
           />
           <EventSection
-            title={`${t('events.thisWeek')}, 1.01.2024-7.01.2024`}
+            title={t('events.thisWeek')}
             events={thisWeekEvents}
-            onEventClick={setSelectedEvent}
           />
           <EventSection
-            title={`${t('events.thisMonth')}, январь 2024`}
+            title={t('events.thisMonth')}
             events={thisMonthEvents}
-            onEventClick={setSelectedEvent}
           />
           <EventSection
-            title={`${t('events.thisYear')}, 2024`}
+            title={t('events.thisYear')}
             events={thisYearEvents}
-            onEventClick={setSelectedEvent}
           />
         </>
       )}
@@ -81,17 +110,12 @@ const MobileEventsView = () => {
 };
 
 const DesktopEventsView = () => {
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [yearSelector, setYearSelector] = useState('2024');
+  const [selectedEvent, setSelectedEvent] = useState<ListedEventDto | null>(null);
+  const [yearSelector] = useState(new Date().getFullYear().toString());
   const { t } = useLanguage();
+  const { data: events, isLoading } = useGetEvents({});
 
-  const todayEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const thisWeekEvents = eventsMock.filter(
-    (event) => event.singleDate === '1.01.2024' || event.singleDate === '1.01.2024-7.01.2024'
-  );
-  const thisMonthEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const thisYearEvents = eventsMock.filter((event) => event.singleDate === '1.01.2024');
-  const allEvents = [todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents].flat();
+  const { parsedEvents, todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents } = useParsedEvents(events);
 
   return (
     <div className="flex h-full">
@@ -127,29 +151,27 @@ const DesktopEventsView = () => {
             </div>
           </div>
 
-          {allEvents.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-20">{t('common.loading')}</div>
+          ) : parsedEvents.length === 0 ? (
             <EmptyState />
           ) : (
             <>
               <EventSection
-                title={`${t('events.today')}, 1 января 2024`}
+                title={t('events.today')}
                 events={todayEvents}
-                onEventClick={setSelectedEvent}
               />
               <EventSection
-                title={`${t('events.thisWeek')}, 1.01.2024-7.01.2024`}
+                title={t('events.thisWeek')}
                 events={thisWeekEvents}
-                onEventClick={setSelectedEvent}
               />
               <EventSection
-                title={`${t('events.thisMonth')}, январь 2024`}
+                title={t('events.thisMonth')}
                 events={thisMonthEvents}
-                onEventClick={setSelectedEvent}
               />
               <EventSection
-                title={`${t('events.thisYear')}, 2024`}
+                title={t('events.thisYear')}
                 events={thisYearEvents}
-                onEventClick={setSelectedEvent}
               />
             </>
           )}

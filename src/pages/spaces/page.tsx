@@ -2,7 +2,7 @@ import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { SectionHeader } from '@/components/spaces/section-header.tsx';
 import { SpaceCard } from '@/components/spaces/space-card.tsx';
 import { spacesMock, availableSpacesMock } from '@/lib/mock-data.ts';
-import { useLanguage } from '@/lib/language-context.tsx';
+import { useLanguage } from '@/app/language-context.tsx';
 
 export const SpacesPage = () => {
   const { t } = useLanguage();

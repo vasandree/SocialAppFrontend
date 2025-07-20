@@ -1,7 +1,7 @@
 import type { UserProfile } from './types';
 
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import { useLanguage } from '@/lib/language-context';
+import { useLanguage } from '@/app/language-context.tsx';
 
 interface ProfileDetailsProps {
   profile: UserProfile;
