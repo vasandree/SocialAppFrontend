@@ -4,11 +4,11 @@ import { CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button.tsx';
 import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { EventSection } from '@/components/events/event-section.tsx';
-import { EventDetailPanel } from '@/components/events/event-detail-panel.tsx';
 import { useMobile } from '@/hooks/use-mobile.tsx';
 import { useLanguage } from '@/app/language-context.tsx';
 import { useGetEvents } from '@/utils/api/hooks/Events/useGetEvents';
 import { ListedEventDto } from '@/utils/api';
+import { Loading } from '@/pages/events/loading.tsx';
 
 const EmptyState = () => {
   const { t } = useLanguage();
@@ -75,6 +75,8 @@ const MobileEventsView = () => {
 
   const { parsedEvents, todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents } = useParsedEvents(events);
 
+  if (isLoading) return <Loading />;
+
   return (
     <div className="p-4 pb-20">
       <div className="flex justify-between items-center mb-6">
@@ -110,12 +112,13 @@ const MobileEventsView = () => {
 };
 
 const DesktopEventsView = () => {
-  const [selectedEvent, setSelectedEvent] = useState<ListedEventDto | null>(null);
   const [yearSelector] = useState(new Date().getFullYear().toString());
   const { t } = useLanguage();
   const { data: events, isLoading } = useGetEvents({});
 
   const { parsedEvents, todayEvents, thisWeekEvents, thisMonthEvents, thisYearEvents } = useParsedEvents(events);
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex h-full">
@@ -177,13 +180,6 @@ const DesktopEventsView = () => {
           )}
         </div>
       </div>
-
-      {selectedEvent && (
-        <EventDetailPanel
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-        />
-      )}
     </div>
   );
 };

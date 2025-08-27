@@ -3,7 +3,6 @@ import { ArrowLeft, Calendar, User } from 'lucide-react';
 import type { TaskData } from './task-card';
 
 import { Button } from '@/components/ui/button';
-import { useMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/app/language-context.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -13,7 +12,6 @@ interface TaskDetailPanelProps {
 }
 
 export const TaskDetailPanel = ({ task, onClose }: TaskDetailPanelProps) => {
-  const isMobile = useMobile();
   const { t } = useLanguage();
 
   const statusOptions = [

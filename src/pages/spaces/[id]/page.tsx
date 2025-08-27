@@ -213,19 +213,6 @@ export const WorkspaceDetailPage = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
-
-      {selectedTask && (
-        <TaskDetailPanel
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-        />
-      )}
-      {selectedEvent && (
-        <EventDetailPanel
-          event={selectedEvent}
-          onClose={() => setSelectedEvent(null)}
-        />
-      )}
     </PageLayout>
   );
 };
