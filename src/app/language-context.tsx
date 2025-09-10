@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
-type Language = 'ru' | 'en';
+import { Language } from '@/utils/api';
 
 interface LanguageContextType {
   language: Language;
@@ -11,7 +11,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const translations = {
-  ru: {
+  Ru: {
     // Navigation
     'nav.spaces': 'Рабочие пространства',
     'nav.people': 'Люди',
@@ -61,7 +61,6 @@ const translations = {
     'places.title': 'Места',
     'clusters.title': 'Клвстеры',
 
-
     // Tasks
     'tasks.title': 'Мои задачи',
     'tasks.new': 'Новая задача',
@@ -110,6 +109,8 @@ const translations = {
     'whiteboard.connectionDeleted': 'Связь удалена',
 
     // Settings
+    'settings.title': 'Настройки профиля',
+    'settings.subtitle': 'Управляйте настройками вашего профиля',
     'settings.theme': 'Тема',
     'settings.language': 'Язык',
     'settings.light': 'Светлая',
@@ -119,6 +120,20 @@ const translations = {
     'settings.english': 'English',
     'settings.theme.description': 'Выберите тему оформления приложения',
     'settings.language.description': 'Выберите язык интерфейса',
+    'settings.saved': 'Настройки сохранены',
+    'settings.notifications.updated': 'Настройки уведомлений обновлены',
+    'settings.languageChanged': 'Язык изменен',
+    'settings.languageChangedToRu': 'Язык интерфейса изменен на русский',
+    'settings.languageChangedToEn': 'Язык интерфейса изменен на английский',
+    'settings.themeChanged': 'Тема изменена',
+    'settings.themeChangedTo': 'Установлена {{theme}} тема',
+    // Notifications
+    'settings.notifications.taskReminders': 'Напоминания о задачах',
+    'settings.notifications.taskRemindersDesc': 'Уведомления о приближающихся сроках выполнения задач',
+    'settings.notifications.taskRemindersMobileDesc': 'Уведомления о сроках задач',
+    'settings.notifications.eventReminders': 'Напоминания о событиях',
+    'settings.notifications.eventRemindersDesc': 'Уведомления о предстоящих событиях и встречах',
+    'settings.notifications.eventRemindersMobileDesc': 'Уведомления о предстоящих событиях',
 
     // Person Creation Dialog
     'personCreation.title': 'Создать новый элемент',
@@ -145,7 +160,7 @@ const translations = {
     'personCreation.placeCreated': 'Место создано',
     'personCreation.clusterCreated': 'Кластер создан',
   },
-  en: {
+  En: {
     // Navigation
     'nav.spaces': 'Workspaces',
     'nav.people': 'People',
@@ -243,6 +258,8 @@ const translations = {
     'whiteboard.connectionDeleted': 'Connection Deleted',
 
     // Settings
+    'settings.title': 'Profile Settings',
+    'settings.subtitle': 'Manage your profile settings',
     'settings.theme': 'Theme',
     'settings.language': 'Language',
     'settings.light': 'Light',
@@ -252,6 +269,20 @@ const translations = {
     'settings.english': 'English',
     'settings.theme.description': 'Choose your preferred app theme',
     'settings.language.description': 'Choose your interface language',
+    'settings.saved': 'Settings saved',
+    'settings.notifications.updated': 'Notification settings updated',
+    'settings.languageChanged': 'Language changed',
+    'settings.languageChangedToRu': 'Interface language changed to Russian',
+    'settings.languageChangedToEn': 'Interface language changed to English',
+    'settings.themeChanged': 'Theme changed',
+    'settings.themeChangedTo': '{{theme}} theme set',
+    // Notifications
+    'settings.notifications.taskReminders': 'Task reminders',
+    'settings.notifications.taskRemindersDesc': 'Notifications about upcoming task deadlines',
+    'settings.notifications.taskRemindersMobileDesc': 'Task deadline notifications',
+    'settings.notifications.eventReminders': 'Event reminders',
+    'settings.notifications.eventRemindersDesc': 'Notifications about upcoming events and meetings',
+    'settings.notifications.eventRemindersMobileDesc': 'Upcoming event notifications',
 
     // Person Creation Dialog
     'personCreation.title': 'Create New Item',
@@ -280,12 +311,12 @@ const translations = {
   },
 };
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('ru');
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const [language, setLanguage] = useState<Language>(Language.Ru);
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && (savedLanguage === 'ru' || savedLanguage === 'en')) {
+    if (savedLanguage && (savedLanguage === Language.Ru || savedLanguage === Language.En)) {
       setLanguage(savedLanguage);
     }
   }, []);
@@ -306,10 +337,10 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   );
 };
 
-export function useLanguage() {
+export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
-}
+};

@@ -10,6 +10,7 @@ import { SocialNetwork } from '@/utils/api';
 import { usePostLogin } from '@/utils/api/hooks/Auth/postLoginHook.ts';
 import { useTheme } from '@/components/theme-provider.tsx';
 import { useLanguage } from '@/app/language-context.tsx';
+import { routes } from '@/utils/consts/routes.ts';
 
 interface AuthInitializerProps {
   children: ReactNode;
@@ -39,12 +40,15 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
   };
 
   useEffect(() => {
-    if (error) return;
+    if (error) {
+      window.location.href = routes.login();
+      return;
+    }
 
-    if (!user && !token) {
+    if (!user && !token && initData) {
       mutateLogin.mutate(
         {
-          params: { initData: initData },
+          params: { initData },
           queryParams: { socialNetwork: SocialNetwork.Telegram },
         },
         {
@@ -52,14 +56,12 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
             setAccessToken(data.tokens.accessToken);
             setRefreshToken(data.tokens.refreshToken);
 
-            if (data.settings) {
-              const theme = data.settings.theme?.toLowerCase() === 'dark' ? 'dark' : 'light';
-              setTheme(theme);
-              localStorage.setItem('theme', theme);
+            if (data.userSettings) {
+              setTheme(data.userSettings.theme);
+              localStorage.setItem('theme', data.userSettings.theme);
 
-              const lang = data.settings.languageCode?.toLowerCase() === 'ru' ? 'ru' : 'en';
-              setLanguage(lang);
-              localStorage.setItem('language', lang);
+              setLanguage(data.userSettings.languageCode);
+              localStorage.setItem('language', data.userSettings.languageCode);
             }
 
             getProfile();
@@ -70,9 +72,8 @@ export const AuthInitializer = ({ children }: AuthInitializerProps) => {
       getProfile();
     }
   }, []);
-  if (loading) return <div>Loading...</div>;
 
-  if (error) return <div>Error</div>;
+  if (loading) return <div>Loading...</div>;
 
   return <>{user && children}</>;
 };

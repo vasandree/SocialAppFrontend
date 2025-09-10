@@ -1,7 +1,6 @@
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 
-import type { TaskData } from './task-card';
-
+import type { TaskData } from '@/pages';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/app/language-context.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';

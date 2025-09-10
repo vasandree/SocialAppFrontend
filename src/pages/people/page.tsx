@@ -1,5 +1,6 @@
 import { Search, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
@@ -11,8 +12,10 @@ import { EmptyPlaceholder } from '@/components/ui/empty-placeholder';
 import { useLanguage } from '@/app/language-context';
 import { useMobile } from '@/hooks/use-mobile.tsx';
 import { useGetClusters, useGetPersons, useGetPlaces } from '@/utils/api/hooks';
+import { routes } from '@/utils/consts/routes.ts';
 
 const PersonsTab = ({
+  navigate,
   persons,
   loading,
   pagination,
@@ -21,6 +24,7 @@ const PersonsTab = ({
   onSearch,
   showSearch = true,
 }: {
+  navigate: NavigateFunction;
   persons: PersonsPaginatedDto;
   loading: boolean;
   pagination: { current: number; count: number; size: number };
@@ -49,6 +53,7 @@ const PersonsTab = ({
             <SocialNodeCard
               key={person.id}
               user={person}
+              onClick={() => navigate(routes.person(person.id))}
             />
           ))
         ) : (
@@ -76,6 +81,7 @@ const PersonsTab = ({
 };
 
 const PlacesTab = ({
+  navigate,
   places,
   loading,
   pagination,
@@ -84,6 +90,7 @@ const PlacesTab = ({
   onSearch,
   showSearch = true,
 }: {
+  navigate: NavigateFunction;
   places: PlacesDto;
   loading: boolean;
   pagination: { current: number; count: number; size: number };
@@ -112,6 +119,7 @@ const PlacesTab = ({
             <SocialNodeCard
               key={place.id}
               user={place}
+              onClick={() => navigate(routes.place(place.id))}
             />
           ))
         ) : (
@@ -139,6 +147,7 @@ const PlacesTab = ({
 };
 
 const ClustersTab = ({
+  navigate,
   clusters,
   loading,
   pagination,
@@ -147,6 +156,7 @@ const ClustersTab = ({
   onSearch,
   showSearch = true,
 }: {
+  navigate: NavigateFunction;
   clusters: ClustersDto;
   loading: boolean;
   pagination: { current: number; count: number; size: number };
@@ -175,6 +185,7 @@ const ClustersTab = ({
             <SocialNodeCard
               key={cluster.id}
               user={cluster}
+              onClick={() => navigate(routes.cluster(cluster.id))}
             />
           ))
         ) : (
@@ -202,6 +213,7 @@ const ClustersTab = ({
 };
 
 const MobileView = ({
+  navigate,
   persons,
   places,
   clusters,
@@ -221,6 +233,7 @@ const MobileView = ({
   onTabChange,
   tab,
 }: {
+  navigate: NavigateFunction;
   persons: PersonsPaginatedDto;
   places: PlacesDto;
   clusters: ClustersDto;
@@ -283,6 +296,7 @@ const MobileView = ({
         </TabsList>
         <TabsContent value="persons">
           <PersonsTab
+            navigate={navigate}
             persons={persons}
             loading={loading}
             pagination={personsPagination}
@@ -293,6 +307,7 @@ const MobileView = ({
         </TabsContent>
         <TabsContent value="places">
           <PlacesTab
+            navigate={navigate}
             places={places}
             loading={loading}
             pagination={placesPagination}
@@ -303,6 +318,7 @@ const MobileView = ({
         </TabsContent>
         <TabsContent value="clusters">
           <ClustersTab
+            navigate={navigate}
             clusters={clusters}
             loading={loading}
             pagination={clustersPagination}
@@ -317,6 +333,7 @@ const MobileView = ({
 };
 
 const DesktopView = ({
+  navigate,
   persons,
   places,
   clusters,
@@ -336,6 +353,7 @@ const DesktopView = ({
   onTabChange,
   tab,
 }: {
+  navigate: NavigateFunction;
   persons: PersonsPaginatedDto;
   places: PlacesDto;
   clusters: ClustersDto;
@@ -395,6 +413,7 @@ const DesktopView = ({
             </TabsList>
             <TabsContent value="persons">
               <PersonsTab
+                navigate={navigate}
                 persons={persons}
                 loading={loading}
                 pagination={personsPagination}
@@ -406,6 +425,7 @@ const DesktopView = ({
             </TabsContent>
             <TabsContent value="places">
               <PlacesTab
+                navigate={navigate}
                 places={places}
                 loading={loading}
                 pagination={placesPagination}
@@ -417,6 +437,7 @@ const DesktopView = ({
             </TabsContent>
             <TabsContent value="clusters">
               <ClustersTab
+                navigate={navigate}
                 clusters={clusters}
                 loading={loading}
                 pagination={clustersPagination}
@@ -436,6 +457,7 @@ const DesktopView = ({
 export const PeoplePage = () => {
   const isMobile = useMobile();
 
+  const navigate = useNavigate();
   const [tab, setTab] = useState<'persons' | 'places' | 'clusters'>('persons');
   const [personsPage, setPersonsPage] = useState(1);
   const [personsSearch, setPersonsSearch] = useState('');
@@ -543,6 +565,7 @@ export const PeoplePage = () => {
     <PageLayout currentPage="people">
       {isMobile ? (
         <MobileView
+          navigate={navigate}
           persons={persons}
           places={places}
           clusters={clusters}
@@ -564,6 +587,7 @@ export const PeoplePage = () => {
         />
       ) : (
         <DesktopView
+          navigate={navigate}
           persons={persons}
           places={places}
           clusters={clusters}

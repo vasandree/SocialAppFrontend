@@ -19,7 +19,7 @@ export interface TokensDto {
 
 export interface AuthResponse {
   tokens: TokensDto;
-  settings: UserSettingsDto;
+  userSettings: UserSettingsDto;
 }
 
 export interface Pagination {
@@ -147,16 +147,18 @@ export enum StatusOfTask {
 export interface UserSettingsDto {
   theme: Theme;
   languageCode: Language;
+  taskReminders: boolean;
+  eventReminders: boolean;
 }
 
 export enum Theme {
-  Dark = 'Dark',
-  Light = 'Light',
+  Dark = 'dark',
+  Light = 'light',
 }
 
 export enum Language {
-  en = 'En',
-  ru = 'Ru',
+  En = 'En',
+  Ru = 'Ru',
 }
 
 export interface ListedWorkspaceDto {

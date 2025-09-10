@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { PersonCreationForm } from './person-creation-form';
 
@@ -26,7 +26,7 @@ import { useMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/app/language-context.tsx';
 
 interface PersonCreationDialogProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const PersonCreationDialog = ({ children }: PersonCreationDialogProps) => {

@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useLanguage } from '@/app/language-context.tsx';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { LanguageToggle } from '@/components/ui/language-toggle';
 import { RootState } from '@/utils/redux';
 import { routes } from '@/utils/consts/routes.ts';
 import { Avatar, AvatarImage } from '@/components/ui/avatar.tsx';
@@ -67,13 +65,6 @@ export const Sidebar = ({ currentPage }: SidebarProps) => {
         </nav>
 
         <div className="mt-auto space-y-4">
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <LanguageToggle />
-            </div>
-          </div>
-
           <Link
             to={routes.profile()}
             className={`flex items-center gap-2 p-2 rounded-md transition-colors ${

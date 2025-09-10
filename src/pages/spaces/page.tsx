@@ -1,7 +1,5 @@
 import { PageLayout } from '@/components/layout/page-layout.tsx';
 import { SectionHeader } from '@/components/spaces/section-header.tsx';
-import { SpaceCard } from '@/components/spaces/space-card.tsx';
-import { spacesMock, availableSpacesMock } from '@/lib/mock-data.ts';
 import { useLanguage } from '@/app/language-context.tsx';
 
 export const SpacesPage = () => {
@@ -14,14 +12,7 @@ export const SpacesPage = () => {
           <section className="mb-10">
             <SectionHeader title={t('spaces.title')} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {spacesMock.map((space, index) => (
-                <SpaceCard
-                  key={index}
-                  space={space}
-                />
-              ))}
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
           </section>
 
           <section>
@@ -30,14 +21,7 @@ export const SpacesPage = () => {
               showViewAll
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {availableSpacesMock.map((space, index) => (
-                <SpaceCard
-                  key={index}
-                  space={space}
-                />
-              ))}
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
           </section>
         </div>
       </div>

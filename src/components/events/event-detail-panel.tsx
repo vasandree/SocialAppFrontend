@@ -1,9 +1,7 @@
 import { ArrowLeft, Calendar, MapPin, Info, Users } from 'lucide-react';
 
-import type { EventData } from './event-card';
 
 import { Button } from '@/components/ui/button';
-import { useMobile } from '@/hooks/use-mobile';
 import { useLanguage } from '@/app/language-context.tsx';
 
 interface EventDetailPanelProps {
@@ -12,7 +10,6 @@ interface EventDetailPanelProps {
 }
 
 export const EventDetailPanel = ({ event, onClose }: EventDetailPanelProps) => {
-  const isMobile = useMobile();
   const { t } = useLanguage();
 
   return (

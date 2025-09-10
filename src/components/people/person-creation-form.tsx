@@ -8,9 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/app/language-context.tsx';
-import { usersMock } from '@/lib/mock-data';
 import { usePostCreateCluster, usePostCreatePerson, usePostCreatePlace } from '@/utils/api/hooks';
 import { useToast } from '@/hooks/use-toast.ts';
+import { usersMock } from '@/lib/mock-data.ts';
 
 interface PersonCreationFormProps {
   onSubmitSuccess?: () => void;

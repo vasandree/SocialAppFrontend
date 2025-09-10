@@ -4,11 +4,15 @@ import { ListedBaseSocialNodeDto } from '@/utils/api';
 
 interface UserCardProps {
   user: ListedBaseSocialNodeDto;
+  onClick: () => void;
 }
 
-export const SocialNodeCard = ({ user }: UserCardProps) => {
+export const SocialNodeCard = ({ user, onClick }: UserCardProps) => {
   return (
-    <Card className="border border-border rounded-xl overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200 bg-card">
+    <Card
+      onClick={() => onClick()}
+      className="border border-border rounded-xl overflow-hidden cursor-pointer hover:shadow-md transition-all duration-200 bg-card"
+    >
       <CardContent className="p-4 flex flex-col items-center text-center bg-card">
         <Avatar className="h-24 w-24 mb-2">
           <AvatarImage

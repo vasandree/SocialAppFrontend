@@ -11,4 +11,6 @@ export const routes = {
   tasks: () => '/tasks',
   taskDetails: (taskId: string) => `/tasks/${taskId || ':taskId'}`,
   profile: () => '/profile',
+  settings: () => '/settings',
+  login: () => '/login',
 };

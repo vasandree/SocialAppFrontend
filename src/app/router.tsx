@@ -4,6 +4,8 @@ import { EventsPage, PeoplePage, PersonPage, ProfilePage, SpacesPage, TasksPage 
 import { routes } from '@/utils/consts/routes.ts';
 import { ClusterPage } from '@/pages/cluster';
 import { PlacePage } from '@/pages/place';
+import { LoginPage } from '@/pages/login';
+import { SettingsPage } from '@/pages/settings';
 
 export const router = createBrowserRouter([
   {
@@ -41,5 +43,13 @@ export const router = createBrowserRouter([
   {
     path: routes.place(),
     element: <PlacePage />,
+  },
+  {
+    path: routes.login(),
+    element: <LoginPage />,
+  },
+  {
+    path: routes.settings(),
+    element: <SettingsPage />,
   },
 ]);
