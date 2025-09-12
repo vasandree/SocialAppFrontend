@@ -31,25 +31,21 @@ export const ThemeProvider = ({ children, defaultTheme = Theme.Light }: ThemePro
 
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
-  // Синхронизируем тему с localStorage и html root
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      // --- Исправлено: всегда синхронизируем state с localStorage и root ---
       const stored = localStorage.getItem('theme');
       if (!initialized.current) {
         initialized.current = true;
         if (stored === Theme.Dark || stored === Theme.Light) {
           if (stored !== theme) {
             setThemeState(stored as Theme);
-            // Не продолжаем, дождёмся следующего эффекта
             return;
           }
         }
       }
-      // Применяем тему к html root и localStorage
       const root = window.document.documentElement;
       root.classList.remove('light', 'dark');
-      root.classList.add(theme);
+      root.classList.add(theme === Theme.Dark ? 'dark' : 'light');
       localStorage.setItem('theme', theme);
     }
   }, [theme]);

@@ -1,6 +1,5 @@
 import { ArrowLeft, Calendar, MapPin, Info, Users } from 'lucide-react';
 
-
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/app/language-context.tsx';
 

@@ -152,8 +152,8 @@ export interface UserSettingsDto {
 }
 
 export enum Theme {
-  Dark = 'dark',
-  Light = 'light',
+  Dark = 'Dark',
+  Light = 'Light',
 }
 
 export enum Language {

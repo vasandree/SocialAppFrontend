@@ -51,7 +51,7 @@ const MobileSettings = ({
 }: MobileSettingsProps) => (
   <div className="pb-20">
     <div className="sticky top-0 bg-background border-b z-10">
-      <div className="flex items-center p-4">
+      <div className="flex items-center p-4 relative">
         <Button
           variant="ghost"
           size="sm"
@@ -63,7 +63,7 @@ const MobileSettings = ({
             {t('common.back')}
           </Link>
         </Button>
-        <h1 className="text-xl font-bold">{t('settings.title')}</h1>
+        <h1 className="text-xl font-bold absolute left-1/2 -translate-x-1/2 m-0 p-0">{t('settings.title')}</h1>
       </div>
     </div>
     <div className="p-4 space-y-6">
@@ -105,8 +105,8 @@ const MobileSettings = ({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={Theme.Dark}>Темная</SelectItem>
-              <SelectItem value={Theme.Light}>Светлая</SelectItem>
+              <SelectItem value={Theme.Light}>{t('settings.light')}</SelectItem>
+              <SelectItem value={Theme.Dark}>{t('settings.dark')}</SelectItem>
             </SelectContent>
           </Select>
         </CardContent>
@@ -164,7 +164,7 @@ const DesktopSettings = ({
   <PageLayout currentPage="profile">
     <div className="p-8 overflow-auto">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-8 relative flex items-center">
           <Button
             variant="ghost"
             size="sm"
@@ -176,9 +176,9 @@ const DesktopSettings = ({
               {t('common.back')}
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
-          <p className="text-muted-foreground mt-2">{t('settings.subtitle')}</p>
+          <h1 className="text-3xl font-bold absolute left-1/2 -translate-x-1/2 m-0 p-0">{t('settings.title')}</h1>
         </div>
+        <p className="text-muted-foreground mt-2 text-center">{t('settings.subtitle')}</p>
         <div className="space-y-6">
           <Card className="border border-border rounded-xl shadow-sm bg-card">
             <CardHeader>
