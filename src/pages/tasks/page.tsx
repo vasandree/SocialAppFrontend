@@ -7,19 +7,19 @@ import { useMobile } from '@/hooks/use-mobile.tsx';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.tsx';
 import { useLanguage } from '@/app/language-context.tsx';
 import { useGetTasks } from '@/utils/api/hooks/Tasks/useGetTasks';
-import { ListedTaskDto } from '@/utils/api';
+import { ListedTaskDto, StatusOfTask } from '@/utils/api'; // Импортируем StatusOfTask
 import { Loading } from '@/pages/tasks/loading.tsx';
 import { useToast } from '@/hooks/use-toast.ts';
 import { usePutEditTaskStatus } from '@/utils/api/hooks';
 
 const statusGroups = [
-  { titleKey: 'tasks.open', color: 'bg-gray-400', key: 'open', listKey: 'openTasks' },
-  { titleKey: 'tasks.inProgress', color: 'bg-yellow-400', key: 'inProgress', listKey: 'inProgressTasks' },
-  { titleKey: 'tasks.completed', color: 'bg-green-400', key: 'completed', listKey: 'completedTasks' },
-  { titleKey: 'tasks.canceled', color: 'bg-red-500', key: 'canceled', listKey: 'cancelledTasks' },
+  { titleKey: 'tasks.open', color: 'bg-gray-400', key: StatusOfTask.Created, listKey: 'openTasks' },
+  { titleKey: 'tasks.inProgress', color: 'bg-yellow-400', key: StatusOfTask.InProgress, listKey: 'inProgressTasks' },
+  { titleKey: 'tasks.completed', color: 'bg-green-400', key: StatusOfTask.Done, listKey: 'completedTasks' },
+  { titleKey: 'tasks.canceled', color: 'bg-red-500', key: StatusOfTask.Cancelled, listKey: 'cancelledTasks' },
 ] as const;
 
-export type TaskStatus = 'open' | 'inProgress' | 'completed' | 'canceled';
+export type TaskStatus = StatusOfTask;
 
 type TaskWithStatus = ListedTaskDto & { status: TaskStatus };
 
@@ -120,22 +120,27 @@ const DesktopTaskView = ({ tasksDto }: TaskViewProps) => {
   const { toast } = useToast();
   const editTaskStatus = usePutEditTaskStatus();
 
-  const handleTaskMove = (taskId: string, newStatus: 'open' | 'inProgress' | 'completed' | 'canceled') => {
+  const handleTaskMove = (taskId: string, newStatus: StatusOfTask) => {
     setTasks((prevTasks) => {
       const updatedTasks = prevTasks.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task));
 
       const task = prevTasks.find((t) => t.id === taskId);
       if (task) {
         const statusLabels = {
-          open: t('tasks.open'),
-          inProgress: t('tasks.inProgress'),
-          completed: t('tasks.completed'),
-          canceled: t('tasks.canceled'),
+          [StatusOfTask.Created]: t('tasks.open'),
+          [StatusOfTask.InProgress]: t('tasks.inProgress'),
+          [StatusOfTask.Done]: t('tasks.completed'),
+          [StatusOfTask.Cancelled]: t('tasks.canceled'),
         };
 
         toast({
           title: 'Задача перемещена',
           description: `"${task.name}" перемещена в "${statusLabels[newStatus]}"`,
+        });
+
+        editTaskStatus.mutate({
+          id: taskId,
+          params: { status: newStatus },
         });
       }
 
@@ -143,10 +148,10 @@ const DesktopTaskView = ({ tasksDto }: TaskViewProps) => {
     });
   };
 
-  const openTasks = tasks.filter((task) => task.status === 'open');
-  const inProgressTasks = tasks.filter((task) => task.status === 'inProgress');
-  const completedTasks = tasks.filter((task) => task.status === 'completed');
-  const canceledTasks = tasks.filter((task) => task.status === 'canceled');
+  const openTasks = tasks.filter((task) => task.status === StatusOfTask.Created);
+  const inProgressTasks = tasks.filter((task) => task.status === StatusOfTask.InProgress);
+  const completedTasks = tasks.filter((task) => task.status === StatusOfTask.Done);
+  const canceledTasks = tasks.filter((task) => task.status === StatusOfTask.Cancelled);
 
   return (
     <div className="p-6 relative">
@@ -159,28 +164,28 @@ const DesktopTaskView = ({ tasksDto }: TaskViewProps) => {
           title={t('tasks.open')}
           tasks={openTasks}
           color="bg-gray-400"
-          status="open"
+          status={StatusOfTask.Created}
           onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.inProgress')}
           tasks={inProgressTasks}
           color="bg-yellow-400"
-          status="inProgress"
+          status={StatusOfTask.InProgress}
           onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.completed')}
           tasks={completedTasks}
           color="bg-green-400"
-          status="completed"
+          status={StatusOfTask.Done}
           onTaskMove={handleTaskMove}
         />
         <TaskColumn
           title={t('tasks.canceled')}
           tasks={canceledTasks}
           color="bg-red-500"
-          status="canceled"
+          status={StatusOfTask.Cancelled}
           onTaskMove={handleTaskMove}
         />
       </div>
@@ -195,10 +200,10 @@ export const TasksPage = () => {
 
   const allTasks: TaskWithStatus[] = tasksDto
     ? [
-        ...tasksDto.openTasks.map((t) => ({ ...t, status: 'open' as const })),
-        ...tasksDto.inProgressTasks.map((t) => ({ ...t, status: 'inProgress' as const })),
-        ...tasksDto.completedTasks.map((t) => ({ ...t, status: 'completed' as const })),
-        ...tasksDto.cancelledTasks.map((t) => ({ ...t, status: 'canceled' as const })),
+        ...tasksDto.openTasks.map((t) => ({ ...t, status: StatusOfTask.Created })),
+        ...tasksDto.inProgressTasks.map((t) => ({ ...t, status: StatusOfTask.InProgress })),
+        ...tasksDto.completedTasks.map((t) => ({ ...t, status: StatusOfTask.Done })),
+        ...tasksDto.cancelledTasks.map((t) => ({ ...t, status: StatusOfTask.Cancelled })),
       ]
     : [];
 

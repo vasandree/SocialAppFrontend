@@ -4,14 +4,15 @@ import * as React from 'react';
 import { useMobile } from '@/hooks/use-mobile';
 import { TaskData } from '@/pages';
 import { TaskCard } from '@/components/tasks/task-card.tsx';
+import { StatusOfTask } from '@/utils/api';
 
 interface TaskColumnProps {
   title: string;
   tasks: TaskData[];
   color: string;
-  status: 'open' | 'inProgress' | 'completed' | 'canceled';
+  status: StatusOfTask;
   onTaskClick?: (task: TaskData) => void;
-  onTaskMove?: (taskId: string, newStatus: 'open' | 'inProgress' | 'completed' | 'canceled') => void;
+  onTaskMove?: (taskId: string, newStatus: StatusOfTask) => void;
 }
 
 export const TaskColumn = ({ title, tasks, color, status, onTaskClick, onTaskMove }: TaskColumnProps) => {

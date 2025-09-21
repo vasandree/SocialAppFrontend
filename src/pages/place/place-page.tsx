@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
@@ -8,12 +8,14 @@ import { useLanguage } from '@/app/language-context.tsx';
 import { useGetRelationsBySocialNode } from '@/utils/api/hooks/Relation/useGetRelationsBySocialNode';
 import type { RelationDto } from '@/utils/api';
 import { useGetPlaceById } from '@/utils/api/hooks/Place/useGetPlaceById.ts';
+import { routes } from '@/utils/consts/routes.ts';
 
 export const PlacePage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: place, isLoading, isError } = useGetPlaceById({ id: id ?? '' });
   const { data: relationsData, isLoading: isRelationsLoading } = useGetRelationsBySocialNode({ id: id ?? '' });
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -37,6 +39,7 @@ export const PlacePage = () => {
         <Button
           variant="ghost"
           className="gap-2"
+          onClick={() => navigate(routes.people())}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="md:hidden">{t('common.back')}</span>

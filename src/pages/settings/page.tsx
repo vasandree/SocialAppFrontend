@@ -178,7 +178,6 @@ const DesktopSettings = ({
           </Button>
           <h1 className="text-3xl font-bold absolute left-1/2 -translate-x-1/2 m-0 p-0">{t('settings.title')}</h1>
         </div>
-        <p className="text-muted-foreground mt-2 text-center">{t('settings.subtitle')}</p>
         <div className="space-y-6">
           <Card className="border border-border rounded-xl shadow-sm bg-card">
             <CardHeader>
@@ -336,20 +335,17 @@ export const SettingsPage = () => {
 
   const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme);
+
     const themeNames = {
       [Theme.Light]: t('settings.light'),
       [Theme.Dark]: t('settings.dark'),
     };
 
-    const themeDesc =
-      language === Language.En
-        ? `${themeNames[newTheme]} ${t('settings.theme').toLowerCase()} ${t('settings.themeChangedTo').replace('{{theme}}', '').trim()}`
-        : t('settings.themeChangedTo', { theme: themeNames[newTheme] });
-
     toast({
       title: t('settings.themeChanged'),
-      description: themeDesc,
+      description: t('settings.themeChangedTo', { theme: themeNames[newTheme] }),
     });
+
     sendSettings({ theme: newTheme });
   };
 

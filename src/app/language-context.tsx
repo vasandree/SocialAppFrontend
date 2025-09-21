@@ -5,7 +5,7 @@ import { Language } from '@/utils/api';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -159,6 +159,17 @@ const translations = {
     'personCreation.personCreated': 'Персона создана',
     'personCreation.placeCreated': 'Место создано',
     'personCreation.clusterCreated': 'Кластер создан',
+
+    // --- Добавленные надписи для модалок ---
+    'people.deletePersonTitle': 'Удалить пользователя?',
+    'people.deletePersonConfirm': 'Вы уверены, что хотите удалить {{name}}?',
+    'people.deleteSocialTitle': 'Удалить соцсеть?',
+    'people.deleteSocialConfirm': 'Вы уверены, что хотите удалить {{type}}?',
+    'people.addSocialTitle': 'Добавить соцсеть',
+    'people.editSocialTitle': 'Редактировать {{type}}',
+    'people.socialType': 'Тип соцсети',
+    'people.chooseSocial': 'Выберите соцсеть',
+    'people.socialUsername': 'Username',
   },
   En: {
     // Navigation
@@ -308,6 +319,17 @@ const translations = {
     'personCreation.personCreated': 'Person created',
     'personCreation.placeCreated': 'Place created',
     'personCreation.clusterCreated': 'Cluster created',
+
+    // --- Added captions for modals ---
+    'people.deletePersonTitle': 'Delete user?',
+    'people.deletePersonConfirm': 'Are you sure you want to delete {{name}}?',
+    'people.deleteSocialTitle': 'Delete social network?',
+    'people.deleteSocialConfirm': 'Are you sure you want to delete {{type}}?',
+    'people.addSocialTitle': 'Add social network',
+    'people.editSocialTitle': 'Edit {{type}}',
+    'people.socialType': 'Social network type',
+    'people.chooseSocial': 'Choose social network',
+    'people.socialUsername': 'Username',
   },
 };
 
@@ -326,8 +348,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('language', lang);
   };
 
-  const t = (key: string): string => {
-    return translations[language][key as keyof (typeof translations)[typeof language]] || key;
+  const t = (key: string, params?: Record<string, string>): string => {
+    const translation = translations[language][key as keyof (typeof translations)[typeof language]] || key;
+
+    return interpolate(translation, params);
   };
 
   return (
@@ -335,6 +359,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </LanguageContext.Provider>
   );
+};
+
+const interpolate = (str: string, params?: Record<string, string>) => {
+  if (!params) return str;
+  return str.replace(/{{(.*?)}}/g, (_, key) => params[key.trim()] ?? '');
 };
 
 export const useLanguage = () => {
